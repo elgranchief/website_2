@@ -2,6 +2,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Suspense } from 'react'; // Import Suspense
 import { getPublishedGalleries } from '@/lib/payload';
 import { PayloadGallery } from '@/types/payload';
 import { ScrollReveal } from '@/components/ScrollReveal'; // Import animation component
@@ -28,11 +29,13 @@ export default async function PortfolioIndexPage({ params }: { params: { lang: s
 
   const galleries = galleriesData.docs;
 
+  // Wrap the client component ScrollReveal in Suspense
   return (
-    <ScrollReveal>
-    <div className="container mx-auto max-w-screen-xl px-4 py-16 md:py-24">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-serif font-light mb-4">
+    <Suspense fallback={<div className="text-center py-16">Loading page...</div>}> 
+      <ScrollReveal>
+        <div className="container mx-auto max-w-screen-xl px-4 py-16 md:py-24">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-5xl font-serif font-light mb-4">
           {lang === 'es-MX' ? 'Portafolio' : 'Portfolio'}
         </h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -41,10 +44,11 @@ export default async function PortfolioIndexPage({ params }: { params: { lang: s
         {/* Optional: Filtering UI */}
       </div>
 
-      {galleries && galleries.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {galleries.map((gallery: PayloadGallery) => { // Added type
-             const featuredImageUrl = (typeof gallery.featuredImage === 'object' && gallery.featuredImage?.url)
+          {/* Gallery grid logic remains inside ScrollReveal */}
+          {galleries && galleries.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {galleries.map((gallery: PayloadGallery) => { // Added type
+               const featuredImageUrl = (typeof gallery.featuredImage === 'object' && gallery.featuredImage?.url)
                                       ? gallery.featuredImage.url : '/david-josue-photography-portfolio-gallery-thumbnail.jpg'; // Fallback image
              const featuredImageAlt = (typeof gallery.featuredImage === 'object' && gallery.featuredImage?.alt)
                                       ? gallery.featuredImage.alt : (gallery.title || 'Gallery thumbnail');
@@ -79,6 +83,7 @@ export default async function PortfolioIndexPage({ params }: { params: { lang: s
         </div>
          // TODO: Add pagination if totalPages > 1
       ) : (
+        // This is the correct "else" block for when no galleries are found
         <div className="text-center py-16">
           <p className="text-gray-500">
             {lang === 'es-MX' ? 'No se encontraron galerías en el portafolio por el momento.' : 'No portfolio galleries found at this time.'}
@@ -86,6 +91,7 @@ export default async function PortfolioIndexPage({ params }: { params: { lang: s
         </div>
       )}
     </div>
-    </ScrollReveal>
+  </ScrollReveal>
+</Suspense>
   );
 }
