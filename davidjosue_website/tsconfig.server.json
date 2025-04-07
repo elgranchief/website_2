@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json", // Inherit settings from the main tsconfig
+  "compilerOptions": {
+    "outDir": "./dist", // Output directory for compiled server files
+    "module": "CommonJS", // Use CommonJS for the server build
+    "noEmit": false // Ensure files are emitted
+  },
+  "include": [
+    "payload.config.ts", // Include the main config
+    "collections/**/*.ts", // Include all collection files
+    "globals/**/*.ts", // Include globals if you add them later
+    "server.ts" // Include the server entry point we'll create next
+  ]
+}

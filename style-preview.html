@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Style Preview - David Josue Photography</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;700&family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;500;700&family=Montserrat:wght@300;400;500;700&family=Libre+Baskerville:wght@400;700&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #F8F8F8; /* Off-white background */
+            color: #333333; /* Charcoal text */
+            padding: 40px;
+            font-family: sans-serif; /* Default fallback */
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #FFFFFF;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        h1, h2, h3 {
+            color: #222222; /* Near-black headings */
+            margin-bottom: 0.5em;
+            font-weight: 400; /* Default light weight for serifs */
+        }
+        p {
+            line-height: 1.7;
+            margin-bottom: 1em;
+            color: #555555; /* Medium gray for body */
+        }
+        .font-option {
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #eee;
+        }
+        .font-option:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .font-option h2 {
+            font-size: 1.2em;
+            color: #888;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .font-option h3 {
+            font-size: 2.2em; /* Example heading size */
+        }
+        .font-option p {
+            font-size: 1em; /* Example body size */
+        }
+
+        /* Font Combination A */
+        .option-a h3 { font-family: 'Cormorant Garamond', serif; font-weight: 500; }
+        .option-a p { font-family: 'Lato', sans-serif; font-weight: 400; }
+
+        /* Font Combination B */
+        .option-b h3 { font-family: 'Playfair Display', serif; font-weight: 500; }
+        .option-b p { font-family: 'Montserrat', sans-serif; font-weight: 400; }
+
+        /* Font Combination C */
+        .option-c h3 { font-family: 'Libre Baskerville', serif; font-weight: 400; }
+        .option-c p { font-family: 'Inter', sans-serif; font-weight: 400; }
+
+        /* Font Combination D (Default Sans - using Inter as example) */
+        .option-d h3 { font-family: 'Inter', sans-serif; font-weight: 500; letter-spacing: -0.02em; }
+        .option-d p { font-family: 'Inter', sans-serif; font-weight: 400; }
+
+        /* Color Palette Demo */
+        .color-demo { margin-top: 40px; }
+        .color-demo h2 { font-family: sans-serif; font-size: 1.2em; color: #888; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        .swatch { display: inline-block; width: 50px; height: 50px; margin-right: 10px; border-radius: 4px; vertical-align: middle; border: 1px solid #eee; }
+        .color-label { display: inline-block; vertical-align: middle; font-size: 0.9em; }
+        .accent-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #B89B72; /* Muted Gold Accent */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-family: sans-serif;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .accent-button:hover { background-color: #a1865f; }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Style Preview</h1>
+        <p>Review the font and color options below to help decide on the high-end aesthetic.</p>
+
+        <div class="font-option option-a">
+            <h2>Font Option A: Classic Elegance</h2>
+            <h3>Heading Example (Cormorant Garamond)</h3>
+            <p>Body text example. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. (Lato)</p>
+        </div>
+
+        <div class="font-option option-b">
+            <h2>Font Option B: Modern Sophistication</h2>
+            <h3>Heading Example (Playfair Display)</h3>
+            <p>Body text example. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. (Montserrat)</p>
+        </div>
+
+        <div class="font-option option-c">
+            <h2>Font Option C: Minimalist Luxury</h2>
+            <h3>Heading Example (Libre Baskerville)</h3>
+            <p>Body text example. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. (Inter)</p>
+        </div>
+
+        <div class="font-option option-d">
+            <h2>Font Option D: Refined Sans-serif</h2>
+            <h3>Heading Example (Inter - Medium Weight)</h3>
+            <p>Body text example. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. (Inter - Regular Weight)</p>
+        </div>
+
+        <div class="color-demo">
+            <h2>Color Palette Suggestion</h2>
+            <div>
+                <span class="swatch" style="background-color: #F8F8F8;"></span> <span class="color-label">Background (Off-white: #F8F8F8)</span>
+            </div>
+            <div style="margin-top: 10px;">
+                <span class="swatch" style="background-color: #222222;"></span> <span class="color-label">Headings (Near-black: #222222)</span>
+            </div>
+             <div style="margin-top: 10px;">
+                <span class="swatch" style="background-color: #555555;"></span> <span class="color-label">Body Text (Medium Gray: #555555)</span>
+            </div>
+             <div style="margin-top: 10px;">
+                <span class="swatch" style="background-color: #B89B72;"></span> <span class="color-label">Accent (Muted Gold: #B89B72)</span>
+                <button class="accent-button">Sample Button</button>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+[
+  {
+    "id": "riviera-maya",
+    "slug_en": "riviera-maya",
+    "slug_es": "riviera-maya",
+    "name_en": "Riviera Maya",
+    "name_es": "Riviera Maya",
+    "region_en": "Quintana Roo",
+    "region_es": "Quintana Roo",
+    "description_en": "Stunning Caribbean beaches and ancient Mayan ruins make for unforgettable destination weddings.",
+    "description_es": "Impresionantes playas del Caribe y antiguas ruinas mayas crean bodas de destino inolvidables.",
+    "includes": ["cancun", "tulum", "playa-del-carmen"],
+    "isInternational": false,
+    "country_en": "Mexico",
+    "country_es": "México",
+    "image": "/placeholder-dest-riviera.jpg",
+    "heroImage": "/placeholder-hero-riviera.jpg"
+  },
+  {
+    "id": "san-miguel-allende",
+    "slug_en": "san-miguel-allende",
+    "slug_es": "san-miguel-allende",
+    "name_en": "San Miguel de Allende",
+    "name_es": "San Miguel de Allende",
+    "region_en": "Guanajuato",
+    "region_es": "Guanajuato",
+    "description_en": "A charming colonial city known for its baroque architecture and vibrant arts scene, perfect for romantic weddings.",
+    "description_es": "Una encantadora ciudad colonial conocida por su arquitectura barroca y vibrante escena artística, perfecta para bodas románticas.",
+    "isInternational": false,
+    "country_en": "Mexico",
+    "country_es": "México",
+    "image": "/placeholder-dest-sma.jpg",
+    "heroImage": "/placeholder-hero-sma.jpg"
+  },
+  {
+    "id": "paris",
+    "slug_en": "paris",
+    "slug_es": "paris",
+    "name_en": "Paris",
+    "name_es": "París",
+    "region_en": "Île-de-France",
+    "region_es": "Isla de Francia",
+    "description_en": "The city of love offers romantic backdrops for unforgettable wedding photos.",
+    "description_es": "La ciudad del amor ofrece fondos románticos para fotos de boda inolvidables.",
+    "isInternational": true,
+    "country_en": "France",
+    "country_es": "Francia",
+    "image": "/placeholder-dest-paris.jpg",
+    "heroImage": "/placeholder-hero-paris.jpg"
+  }
+]

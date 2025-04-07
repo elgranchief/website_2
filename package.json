@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "@payloadcms/db-mongodb": "^3.31.0",
+    "@payloadcms/next": "^3.31.0",
+    "@payloadcms/richtext-slate": "^3.31.0",
+    "payload": "^3.31.0"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^5.0.1"
+  }
+}

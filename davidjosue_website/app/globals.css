@@ -1,0 +1,205 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+  
+  body {
+    @apply bg-brand-background text-brand-text-primary font-sans antialiased;
+    /* Enhanced defaults for better typography and readability */
+    @apply text-base leading-relaxed font-light;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Refined typography hierarchy */
+  h1 {
+    @apply font-serif font-normal text-4xl md:text-5xl lg:text-6xl leading-tighter tracking-tight text-brand-text-primary;
+    @apply my-8;
+  }
+  
+  h2 {
+    @apply font-serif font-normal text-3xl md:text-4xl leading-tight tracking-tight text-brand-text-primary;
+    @apply my-6;
+  }
+  
+  h3 {
+    @apply font-serif font-normal text-2xl md:text-3xl leading-tight text-brand-text-primary;
+    @apply my-5;
+  }
+  
+  h4 {
+    @apply font-serif font-normal text-xl md:text-2xl leading-snug text-brand-text-primary;
+    @apply my-4;
+  }
+  
+  h5 {
+    @apply font-sans font-medium text-lg md:text-xl leading-snug text-brand-text-primary;
+    @apply my-3;
+  }
+  
+  h6 {
+    @apply font-sans font-medium text-base md:text-lg leading-snug text-brand-text-primary;
+    @apply my-3;
+  }
+  
+  p {
+    @apply mb-6 max-w-content;
+  }
+  
+  /* Elegant links with subtle transitions */
+  a {
+    @apply text-brand-text-primary hover:text-brand-accent transition-colors duration-400 ease-elegant;
+    @apply no-underline hover:underline decoration-1 underline-offset-4;
+  }
+  
+  /* Basic list styles */
+  ul, ol {
+    @apply pl-5 mb-6;
+  }
+  
+  li {
+    @apply mb-2;
+  }
+  
+  /* Subtle horizontal rules */
+  hr {
+    @apply border-t border-brand-border my-12;
+  }
+  
+  /* Refined button defaults */
+  button {
+    @apply font-sans font-normal px-6 py-3 bg-transparent border border-brand-border rounded-none;
+    @apply hover:border-brand-accent transition-all duration-400 ease-elegant;
+  }
+  
+  /* Focus styles for accessibility */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-brand-accent ring-offset-2;
+  }
+  
+  /* Selection styling */
+  ::selection {
+    @apply bg-brand-accent/20 text-brand-text-primary;
+  }
+}
+
+@layer components {
+  /* Common section padding */
+  .section-padding {
+    @apply py-16 md:py-24 lg:py-34;
+  }
+  
+  /* Section with subtle background */
+  .section-alt {
+    @apply bg-brand-background-alt;
+  }
+  
+  /* Container with good reading width */
+  .content-container {
+    @apply max-w-content mx-auto px-6;
+  }
+  
+  /* Primary button */
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3;
+    @apply border border-brand-text-primary hover:border-brand-accent;
+    @apply text-brand-text-primary hover:text-brand-accent;
+    @apply text-sm uppercase tracking-widest no-underline;
+    @apply transition-all duration-400 ease-elegant;
+  }
+  
+  /* Text button/link */
+  .link-subtle {
+    @apply text-brand-text-secondary hover:text-brand-accent no-underline;
+    @apply transition-colors duration-400 ease-elegant;
+  }
+  
+  /* Image container with ratio */
+  .image-container {
+    @apply relative w-full overflow-hidden;
+  }
+  
+  .image-container.portrait {
+    @apply aspect-[2/3];
+  }
+  
+  .image-container.landscape {
+    @apply aspect-[3/2];
+  }
+  
+  .image-container.square {
+    @apply aspect-square;
+  }
+  
+  /* Gallery grids */
+  .gallery-grid-2 {
+    @apply grid grid-cols-1 md:grid-cols-gallery-2 gap-6 md:gap-10;
+  }
+  
+  .gallery-grid-3 {
+    @apply grid grid-cols-1 md:grid-cols-gallery-3 gap-6 md:gap-10;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  /* Subtle animations */
+  .hover-lift {
+    @apply transition-transform duration-400 ease-elegant;
+    @apply hover:-translate-y-1;
+  }
+  
+  .hover-zoom {
+    @apply transition-transform duration-600 ease-elegant;
+    @apply hover:scale-105;
+  }
+  
+  /* Text treatments */
+  .elegant-caps {
+    @apply uppercase tracking-widest text-xs font-medium;
+  }
+  
+  .caption-text {
+    @apply text-sm text-brand-text-secondary;
+  }
+}
+
+/* Custom styles for CV page */
+.cv-content {
+  @apply text-brand-text-primary bg-white;
+}
+
+.cv-content ul {
+  @apply list-none m-0 p-0;
+}
+
+.cv-content ul li {
+  @apply mb-4;
+}
+
+.cv-content ul.bullet-list {
+  @apply list-disc ml-6 p-0;
+}
+
+.cv-content ul.bullet-list li {
+  @apply mb-2;
+}
+
+.cv-content a {
+  @apply text-brand-accent no-underline hover:underline;
+}
+
+.cv-content strong {
+  @apply font-medium;
+}
+
+.cv-content p {
+  @apply mb-4;
+}
