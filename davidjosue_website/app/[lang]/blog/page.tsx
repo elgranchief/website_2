@@ -2,8 +2,8 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { getPublishedWordPressPosts } from '@/lib/wordpress'; // Use WordPress API
-import { AdaptedPost } from '@/lib/wordpress'; // Use WordPress types
+import { getBlogPostsByLang } from '@/data/blog-posts'; // Use static blog data
+import { BlogPost } from '@/data/blog-posts'; // Use static blog types
 import { formatDate } from '@/lib/utils';
 import { ScrollReveal } from '@/components/ScrollReveal'; // Import animation component
 // Import pagination component if you build one
@@ -24,30 +24,9 @@ export default async function BlogIndexPage({ params, searchParams }: {
   const page = typeof searchParams?.page === 'string' ? Number(searchParams.page) : 1;
    const limit = 9; // Number of posts per page
 
-   let postsData;
-   let fetchError: string | null = null; // Variable to hold potential error message
-   try {
-    // Make sure WORDPRESS_API_URL is set in your environment variables
-    postsData = await getPublishedWordPressPosts(lang, limit, page);
-  } catch (error) {
-     console.error("Failed to fetch posts from WordPress:", error);
-     // Provide a more informative fallback or error display
-     postsData = { docs: [], totalPages: 0, page: 1, hasNextPage: false, hasPrevPage: false }; // Keep postsData structure consistent
-     fetchError = (error as Error).message; // Store error message separately
-   }
-
-   const { docs: posts, totalPages, hasNextPage, hasPrevPage } = postsData;
-
-   // Display error message if fetching failed
-  if (fetchError) {
-    return (
-      <div className="container mx-auto max-w-screen-lg px-4 py-16 md:py-24 text-center">
-        <h1 className="text-4xl md:text-5xl font-serif font-light mb-4 text-red-600">Error Fetching Posts</h1>
-        <p className="text-lg text-gray-600">Could not load blog posts. Please ensure the WordPress API is accessible and the WORDPRESS_API_URL is correctly configured.</p>
-        <p className="text-sm text-gray-500 mt-2">Details: {fetchError}</p>
-      </div>
-    );
-  }
+   // Get blog posts using static data
+  const postsData = getBlogPostsByLang(lang, limit, page);
+  const { docs: posts, totalPages, hasNextPage, hasPrevPage } = postsData;
 
   return (
     <ScrollReveal>
@@ -64,10 +43,8 @@ export default async function BlogIndexPage({ params, searchParams }: {
       {posts && posts.length > 0 ? (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {posts.map((post: AdaptedPost) => { // Use AdaptedPost type
-              // Ensure slug exists for the current language before rendering link
-              const postSlug = post.slug; // Assuming API returns correct slug for locale
-              if (!postSlug) return null; // Skip rendering if slug is missing
+            {posts.map((post: BlogPost) => { // Use BlogPost type
+              const postSlug = post.slug;
 
               return (
                 <Link key={post.id} href={`/${lang}/blog/${postSlug}`} className="group block bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">

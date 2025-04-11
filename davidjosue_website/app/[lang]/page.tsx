@@ -4,10 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FlodeskForm } from '../../components/FlodeskForm';
 import { ScrollReveal } from '../../components/ScrollReveal'; // Import animation component
-// Import fetch functions if fetching dynamic data like blog posts
-// import { getPublishedPosts } from '../../lib/payload'; // Corrected import path
-// import { PayloadPost } from '../../types/payload'; // Corrected import path
-// import { formatDate } from '../../lib/utils'; // Corrected import path
+import { formatDate } from '../../lib/utils'; // Utility function for date formatting
 
 // Define metadata specifically for the homepage
 export const metadata: Metadata = {

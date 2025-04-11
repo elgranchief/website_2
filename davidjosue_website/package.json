@@ -5,40 +5,28 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "dev:server": "cross-env PAYLOAD_CONFIG_PATH=payload.config.ts tsx server.ts",
-    "payload": "cross-env PAYLOAD_CONFIG_PATH=payload.config.ts payload",
-    "payload:admin": "cross-env PAYLOAD_CONFIG_PATH=payload.config.ts payload admin",
-    "admin": "node admin.js",
-    "build:payload": "cross-env PAYLOAD_CONFIG_PATH=payload.config.ts payload build",
-    "build": "npm run generate:types && npm run build:payload && next build",
+    "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "generate:types": "cross-env PAYLOAD_CONFIG_PATH=payload.config.ts payload generate:types"
+    "lint": "next lint"
   },
   "dependencies": {
-    "@payloadcms/db-mongodb": "^1.5.1",
-    "@payloadcms/next": "^3.31.0",
-    "@payloadcms/richtext-slate": "^1.5.1",
-    "cross-env": "^7.0.3",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
     "framer-motion": "^12.6.3",
-    "mongodb": "^6.15.0",
-    "next": "14.2.3",
-    "payload": "^2.17.1",
+    "next": "^14.2.27",
     "react": "^18",
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "autoprefixer": "^10.4.21",
     "cross-env": "^7.0.3",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
     "tsx": "^4.19.3",
-    "typescript": "^5"
+    "typescript": "5.8.3"
   }
 }

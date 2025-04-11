@@ -1,0 +1,255 @@
+# Website CSS Summary (davidjosue-website-2025)
+
+This document summarizes the CSS usage in the project to aid in style unification and optimization.
+
+## Primary Styling Method: Tailwind CSS
+
+The project heavily utilizes Tailwind CSS. Most styling is achieved by applying utility classes directly to elements within the `.tsx` component files (e.g., `className="text-center font-bold"`). Tailwind automatically compiles these into an optimized CSS file during the build process. Reviewing `tailwind.config.ts` will show theme customizations (colors, fonts, etc.) used by these utility classes.
+
+## Global CSS File: `davidjosue_website/app/globals.css`
+
+This file defines custom base styles, component classes, and utility classes using Tailwind's `@layer` directive, along with some page-specific styles.
+
+```css
+/* davidjosue_website/app/globals.css */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --- Base Layer --- */
+/* Defines global default styles for standard HTML elements (h1-h6, p, a, lists, etc.) */
+/* These styles apply site-wide unless overridden. */
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-brand-background text-brand-text-primary font-sans antialiased;
+    /* Enhanced defaults for better typography and readability */
+    @apply text-base leading-relaxed font-light;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Refined typography hierarchy */
+  h1 {
+    @apply font-serif font-normal text-4xl md:text-5xl lg:text-6xl leading-tighter tracking-tight text-brand-text-primary;
+    @apply my-8;
+  }
+
+  h2 {
+    @apply font-serif font-normal text-3xl md:text-4xl leading-tight tracking-tight text-brand-text-primary;
+    @apply my-6;
+  }
+
+  h3 {
+    @apply font-serif font-normal text-2xl md:text-3xl leading-tight text-brand-text-primary;
+    @apply my-5;
+  }
+
+  h4 {
+    @apply font-serif font-normal text-xl md:text-2xl leading-snug text-brand-text-primary;
+    @apply my-4;
+  }
+
+  h5 {
+    @apply font-sans font-medium text-lg md:text-xl leading-snug text-brand-text-primary;
+    @apply my-3;
+  }
+
+  h6 {
+    @apply font-sans font-medium text-base md:text-lg leading-snug text-brand-text-primary;
+    @apply my-3;
+  }
+
+  p {
+    @apply mb-6 max-w-content;
+  }
+
+  /* Elegant links with subtle transitions */
+  a {
+    @apply text-brand-text-primary hover:text-brand-accent transition-colors duration-400 ease-elegant;
+    @apply no-underline hover:underline decoration-1 underline-offset-4;
+  }
+
+  /* Basic list styles */
+  ul, ol {
+    @apply pl-5 mb-6;
+  }
+
+  li {
+    @apply mb-2;
+  }
+
+  /* Subtle horizontal rules */
+  hr {
+    @apply border-t border-brand-border my-12;
+  }
+
+  /* Refined button defaults */
+  button {
+    @apply font-sans font-normal px-6 py-3 bg-transparent border border-brand-border rounded-none;
+    @apply hover:border-brand-accent transition-all duration-400 ease-elegant;
+  }
+
+  /* Focus styles for accessibility */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-brand-accent ring-offset-2;
+  }
+
+  /* Selection styling */
+  ::selection {
+    @apply bg-brand-accent/20 text-brand-text-primary;
+  }
+}
+
+/* --- Components Layer --- */
+/* Defines reusable custom component classes intended for site-wide use. */
+@layer components {
+  /* Common section padding */
+  .section-padding {
+    @apply py-16 md:py-24 lg:py-34;
+  }
+
+  /* Section with subtle background */
+  .section-alt {
+    @apply bg-brand-background-alt;
+  }
+
+  /* Container with good reading width */
+  .content-container {
+    @apply max-w-content mx-auto px-6;
+  }
+
+  /* Primary button */
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3;
+    @apply border border-brand-text-primary hover:border-brand-accent;
+    @apply text-brand-text-primary hover:text-brand-accent;
+    @apply text-sm uppercase tracking-widest no-underline;
+    @apply transition-all duration-400 ease-elegant;
+  }
+
+  /* Text button/link */
+  .link-subtle {
+    @apply text-brand-text-secondary hover:text-brand-accent no-underline;
+    @apply transition-colors duration-400 ease-elegant;
+  }
+
+  /* Image container with ratio */
+  .image-container {
+    @apply relative w-full overflow-hidden;
+  }
+
+  .image-container.portrait {
+    @apply aspect-[2/3];
+  }
+
+  .image-container.landscape {
+    @apply aspect-[3/2];
+  }
+
+  .image-container.square {
+    @apply aspect-square;
+  }
+
+  /* Gallery grids */
+  .gallery-grid-2 {
+    @apply grid grid-cols-1 md:grid-cols-gallery-2 gap-6 md:gap-10;
+  }
+
+  .gallery-grid-3 {
+    @apply grid grid-cols-1 md:grid-cols-gallery-3 gap-6 md:gap-10;
+  }
+}
+
+/* --- Utilities Layer --- */
+/* Defines reusable custom utility classes intended for site-wide use. */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Subtle animations */
+  .hover-lift {
+    @apply transition-transform duration-400 ease-elegant;
+    @apply hover:-translate-y-1;
+  }
+
+  .hover-zoom {
+    @apply transition-transform duration-600 ease-elegant;
+    @apply hover:scale-105;
+  }
+
+  /* Text treatments */
+  .elegant-caps {
+    @apply uppercase tracking-widest text-xs font-medium;
+  }
+
+  .caption-text {
+    @apply text-sm text-brand-text-secondary;
+  }
+}
+
+/* --- Page-Specific Styles --- */
+/* NOTE: The following styles are specifically targeted for the CV page. */
+/* Consider if these styles can be generalized or integrated into reusable components/utilities */
+/* if the same visual patterns are needed elsewhere. */
+.cv-content {
+  @apply text-brand-text-primary bg-white;
+}
+
+.cv-content ul {
+  @apply list-none m-0 p-0;
+}
+
+.cv-content ul li {
+  @apply mb-4;
+}
+
+.cv-content ul.bullet-list {
+  @apply list-disc ml-6 p-0;
+}
+
+.cv-content ul.bullet-list li {
+  @apply mb-2;
+}
+
+.cv-content a {
+  @apply text-brand-accent no-underline hover:underline;
+}
+
+.cv-content strong {
+  @apply font-medium;
+}
+
+.cv-content p {
+  @apply mb-4;
+}
+```
+
+## Inline Styles (`style={{...}}`)
+
+Inline styles were found in the following components, primarily for functional purposes:
+
+*   `app/[lang]/portfolio/page.tsx`: `objectFit: 'cover'` (Images)
+*   `app/[lang]/page.tsx`: `objectFit: 'cover'` (Images)
+*   `app/[lang]/destinations/page.tsx`: `objectFit: 'cover'` (Images)
+*   `components/Header.tsx`: `width: 'auto'` (Logo Image aspect ratio)
+*   `components/GtmScript.tsx`: `display: 'none', visibility: 'hidden'` (Hiding GTM iframe)
+*   `components/Footer.tsx`: `width: 'auto', height: '75px'` (Logo Image aspect ratio)
+*   `components/ShootqForm.tsx`: `width: '100%'` (Sizing ShootQ iframe)
+
+**Recommendation:** Consider replacing inline `style={{ objectFit: 'cover' }}` with the Tailwind utility class `className="object-cover"` for consistency.
+
+## Next Steps for Unification & Optimization
+
+1.  **Review `globals.css`:** Analyze the base, component, and utility styles. Ensure they align with your desired unified look.
+2.  **Analyze CV Styles:** Determine if the `.cv-content` styles are truly unique to the CV page or if parts could be extracted into reusable components or utilities defined in the `@layer components` or `@layer utilities` sections if similar styling is needed elsewhere.
+3.  **Review Tailwind Config (`tailwind.config.ts`):** Ensure your theme definitions (colors, fonts, spacing) are consistent and reflect your brand.
+4.  **Component Audit:** Review components (`.tsx` files) for inconsistent application of Tailwind utilities. Look for opportunities to create reusable components (using `@apply` in `globals.css` or by creating new React components) for common UI patterns.
+5.  **Replace Inline Styles (Optional):** Replace functional inline styles like `object-fit` with Tailwind classes (`object-cover`) where appropriate.
+
+This summary should provide a clear overview of where your styles are defined and help you identify areas for consolidation and optimization.
