@@ -1,0 +1,6 @@
+{
+  "version": 2,
+  "buildCommand": "cd davidjosue_website && npm install && npm run build",
+  "outputDirectory": "davidjosue_website/.next",
+  "framework": "nextjs"
+}
