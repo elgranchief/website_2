@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "scripts": {
     "dev": "cd davidjosue_website && npm run dev",
     "build": "cd davidjosue_website && npm run build",
