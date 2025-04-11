@@ -1,9 +1,10 @@
 // /app/sitemap.xml/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { getPublishedPosts, getPublishedGalleries } from '@/lib/payload'; // Corrected path alias
-import destinationsDataUntyped from '@/data/destinations.json'; // Corrected path alias
-import locationsDataUntyped from '@/data/locations.json'; // Corrected path alias
-import { PayloadPost, PayloadGallery } from '@/types/payload'; // Corrected path alias
+import { getAllPosts } from '@/data/blog-posts';
+import { getAllGalleries } from '@/data/portfolio-galleries';
+import destinationsDataUntyped from '@/data/destinations.json';
+import locationsDataUntyped from '@/data/locations.json';
+import { StaticBlogPost, StaticGallery } from '@/types/static-content';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 const LANGUAGES = ['en-US', 'es-MX'];
@@ -50,6 +51,7 @@ export async function GET(request: NextRequest) {
         '/about',
         '/contact',
         '/blog',
+        '/portfolio',
         '/destinations',
         '/services/destination-weddings',
         '/services/boudoir',
@@ -70,24 +72,22 @@ export async function GET(request: NextRequest) {
         });
     });
 
-    // 2. Dynamic Blog Posts (Fetch from Payload)
+    // 2. Dynamic Blog Posts
     try {
-      const allPostsResponse = await getPublishedPosts('all', 2000); // Fetch all posts, adjust limit/pagination if needed
-      allPostsResponse.docs.forEach((post: PayloadPost) => { // Added type
-        // Add URL for each language the post is available in
-        const locales = post.locale ? [post.locale] : LANGUAGES; // Adjust based on how Payload handles localization fetch
-        locales.forEach(lang => {
-           if (post.slug) { // Assuming slug is unique per locale or handled correctly
-                urls.push({
-                    loc: `${SITE_URL}/${lang}/blog/${post.slug}`,
-                    lastmod: post.updatedAt?.split('T')[0] || currentDate,
-                    changefreq: 'monthly',
-                    priority: 0.7
-                });
-           }
+      const allPosts = getAllPosts();
+      allPosts.forEach((post: StaticBlogPost) => {
+        LANGUAGES.forEach(lang => {
+          const isSpanish = lang === 'es-MX';
+          const slug = isSpanish && post.slugEs ? post.slugEs : post.slug;
+          urls.push({
+              loc: `${SITE_URL}/${lang}/blog/${slug}`,
+              lastmod: post.date || currentDate,
+              changefreq: 'monthly',
+              priority: 0.7
+          });
         });
       });
-    } catch (error) { console.error("Sitemap: Error fetching blog posts:", error); }
+    } catch (error) { console.error("Sitemap: Error processing blog posts:", error); }
 
 
     // 3. Dynamic Destination/Location Pages (From /data)
@@ -96,12 +96,10 @@ export async function GET(request: NextRequest) {
         allPlacesSitemap.forEach(place => {
           LANGUAGES.forEach(lang => {
              const slug = lang === 'es-MX' ? place.slug_es : place.slug_en;
-             // Determine path segment based on type (assuming you have separate routes like /destinations/slug and /locations/slug)
-             // If you only have /destinations/[slug] for both, adjust this logic
-             const pageType = place.type === 'destination' ? 'destinations' : 'locations'; // Adjust if needed
+             // Determine path segment based on type
+             const pageType = place.type === 'destination' ? 'destinations' : 'locations';
              if (slug) {
                 // Check if the base page exists in staticPages before adding dynamic ones
-                // This assumes /destinations and /locations base pages exist
                 if (staticPages.includes(`/${pageType}`)) {
                    urls.push({ loc: `${SITE_URL}/${lang}/${pageType}/${slug}`, lastmod: currentDate, changefreq: 'monthly', priority: 0.6 });
                 } else {
@@ -132,36 +130,27 @@ export async function GET(request: NextRequest) {
       });
     } catch (error) { console.error("Sitemap: Error generating programmatic URLs:", error); }
 
-    // 5. Dynamic Portfolio Galleries (Fetch from Payload)
+    // 5. Dynamic Portfolio Galleries
     try {
-        const allGalleriesResponse = await getPublishedGalleries('all', 1000); // Fetch all galleries
-        allGalleriesResponse.docs.forEach((gallery: PayloadGallery) => { // Added type
-            const locales = gallery.locale ? [gallery.locale] : LANGUAGES;
-            locales.forEach(lang => {
-               if (gallery.slug) {
-                   urls.push({
-                       loc: `${SITE_URL}/${lang}/portfolio/${gallery.slug}`,
-                       lastmod: gallery.updatedAt?.split('T')[0] || currentDate,
-                       changefreq: 'yearly', // Galleries might not change often
-                       priority: 0.6
-                   });
-               }
+        const allGalleries = getAllGalleries();
+        allGalleries.forEach((gallery: StaticGallery) => {
+          LANGUAGES.forEach(lang => {
+            const isSpanish = lang === 'es-MX';
+            const slug = isSpanish && gallery.slugEs ? gallery.slugEs : gallery.slug;
+            urls.push({
+                loc: `${SITE_URL}/${lang}/portfolio/${slug}`,
+                lastmod: currentDate,
+                changefreq: 'yearly',
+                priority: 0.6
             });
+          });
         });
-        // Add portfolio index page if not already in static pages
-        if (!staticPages.some(p => p === '/portfolio')) { // Check if portfolio index exists
-            LANGUAGES.forEach(lang => {
-                urls.push({ loc: `${SITE_URL}/${lang}/portfolio`, lastmod: currentDate, changefreq: 'weekly', priority: 0.7 });
-            });
-        }
-    } catch (error) { console.error("Sitemap: Error fetching portfolio galleries:", error); }
+    } catch (error) { console.error("Sitemap: Error processing portfolio galleries:", error); }
 
-
-    // Remove duplicates just in case (though logic should prevent them)
+    // Remove duplicates just in case
     urls = urls.filter((url, index, self) =>
        index === self.findIndex((u) => (u.loc === url.loc))
     );
-
 
     // Generate XML String
     const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>
@@ -184,6 +173,3 @@ ${urls.map(url => `
         },
     });
 }
-
- // Ensure this route is dynamically rendered as it might fetch data
- // export const dynamic = 'force-dynamic'; // Or use revalidate if fetching data inside

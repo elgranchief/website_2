@@ -3,35 +3,23 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { getGalleryBySlug, getPublishedGalleries } from '@/lib/payload'; // Corrected path alias
-import { PayloadRichText } from '@/components/PayloadRichText';
-import { PayloadMedia, PayloadGallery } from '@/types/payload';
-import { ScrollReveal } from '@/components/ScrollReveal'; // Import animation component
-
-// Fetch data for the specific gallery
-async function getGallery(slug: string, lang: string) {
-   try {
-       return await getGalleryBySlug(slug, lang);
-   } catch (error) {
-       console.error(`Error fetching gallery "${slug}" in lang "${lang}":`, error);
-       return null;
-   }
-}
+import { getGalleryBySlug, getAllGalleries } from '@/data/portfolio-galleries';
+import { SimpleRichText } from '@/components/SimpleRichText';
+import { StaticGallery, StaticImage } from '@/types/static-content';
+import { ScrollReveal } from '@/components/ScrollReveal';
 
 // Generate Metadata
 export async function generateMetadata({ params }: { params: { lang: string, 'gallery-slug': string } }): Promise<Metadata> {
     const lang = params.lang === 'es-MX' ? 'es-MX' : 'en-US';
-    const gallery = await getGallery(params['gallery-slug'], lang);
+    const gallery = getGalleryBySlug(params['gallery-slug'], lang);
 
     if (!gallery) {
         return { title: 'Gallery Not Found' };
     }
 
-    const title = gallery.metaTitle || gallery.title || 'Portfolio Gallery'; // Add metaTitle field to Payload Gallery collection
-    const description = gallery.metaDescription || 'View this photography gallery by David Josue.'; // Add metaDescription field
-    const imageUrl = (typeof gallery.featuredImage === 'object' && gallery.featuredImage?.url)
-                     ? gallery.featuredImage.url
-                     : null;
+    const isSpanish = lang === 'es-MX';
+    const title = isSpanish && gallery.titleEs ? gallery.titleEs : gallery.title;
+    const description = isSpanish && gallery.descriptionEs ? gallery.descriptionEs : (gallery.description || 'View this photography gallery by David Josue.');
 
     return {
         title: `${title} | David Josue Portfolio`,
@@ -39,25 +27,22 @@ export async function generateMetadata({ params }: { params: { lang: string, 'ga
         openGraph: {
             title: `${title} | David Josue Portfolio`,
             description: description.substring(0, 160),
-             images: imageUrl ? [{ url: imageUrl }] : [],
+            images: gallery.featuredImage ? [{ url: gallery.featuredImage.url }] : [],
         },
-        // Add Twitter card if needed
     };
 }
 
 // Generate Static Params
-export async function generateStaticParams() {
+export function generateStaticParams() {
   const params: { lang: string; 'gallery-slug': string }[] = [];
   const languages = ['en-US', 'es-MX'];
 
   try {
     for (const lang of languages) {
-      // Fetch all published gallery slugs
-      const galleriesResponse = await getPublishedGalleries(lang, 1000); // Adjust limit
-      galleriesResponse.docs.forEach((gallery: PayloadGallery) => { // Added type
-        if (gallery.slug) {
-          params.push({ lang: lang, 'gallery-slug': gallery.slug });
-        }
+      const galleries = getAllGalleries(lang);
+      galleries.forEach((gallery: StaticGallery) => {
+        const slug = lang === 'es-MX' && gallery.slugEs ? gallery.slugEs : gallery.slug;
+        params.push({ lang: lang, 'gallery-slug': slug });
       });
     }
   } catch (error) {
@@ -66,19 +51,17 @@ export async function generateStaticParams() {
   return params;
 }
 
-
-export default async function PortfolioGalleryPage({ params }: { params: { lang: string, 'gallery-slug': string } }) {
+export default function PortfolioGalleryPage({ params }: { params: { lang: string, 'gallery-slug': string } }) {
   const lang = params.lang === 'es-MX' ? 'es-MX' : 'en-US';
-  const gallery = await getGallery(params['gallery-slug'], lang);
+  const gallery = getGalleryBySlug(params['gallery-slug'], lang);
 
   if (!gallery) {
     notFound();
   }
 
-  // Ensure images array contains populated media objects, not just IDs
-  const images: PayloadMedia[] = (gallery.images || [])
-      .map(img => (typeof img === 'object' ? img : null))
-      .filter((img): img is PayloadMedia => img !== null); // Type guard
+  const isSpanish = lang === 'es-MX';
+  const title = isSpanish && gallery.titleEs ? gallery.titleEs : gallery.title;
+  const description = isSpanish && gallery.descriptionEs ? gallery.descriptionEs : gallery.description;
 
   return (
     <ScrollReveal>
@@ -86,29 +69,28 @@ export default async function PortfolioGalleryPage({ params }: { params: { lang:
       {/* Gallery Header */}
       <header className="mb-12 text-center">
          <h1 className="text-4xl md:text-5xl font-serif font-light mb-4">
-            {gallery.title}
+            {title}
          </h1>
-         {gallery.description && (
+         {description && (
             <div className="prose prose-lg mx-auto text-gray-700 max-w-screen-md">
-                <PayloadRichText content={gallery.description} />
+                <SimpleRichText content={description} />
             </div>
          )}
       </header>
 
       {/* Image Grid/Layout */}
-      {images.length > 0 ? (
+      {gallery.images && gallery.images.length > 0 ? (
          <div className="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
-             {images.map((image) => (
-                <div key={image.id} className="break-inside-avoid"> {/* Prevent items breaking across columns */}
+             {gallery.images.map((image) => (
+                <div key={image.id} className="break-inside-avoid">
                     {image.url && (
                          <Image
                             src={image.url}
-                            alt={image.alt || gallery.title || 'Portfolio image'}
-                            width={image.width || 800} // Use dimensions from Payload if available
+                            alt={image.alt || title || 'Portfolio image'}
+                            width={image.width || 800}
                             height={image.height || 800}
                             className="w-full h-auto object-cover rounded shadow-sm"
                             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                            // Add loading="lazy" potentially, but Next.js Image handles it well
                          />
                     )}
                 </div>
