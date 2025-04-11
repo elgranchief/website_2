@@ -44,23 +44,23 @@ export default async function HomePage({ params }: { params: { lang: string } })
           priority // Load hero image first
           className="absolute inset-0 z-0" // Removed opacity
         />
-        {/* Dark Overlay */}
-        <div className="absolute inset-0 z-1 bg-black opacity-50"></div>
-        {/* Text Content */}
-        <div className="relative z-10 p-4">
-          {/* Revised Hero - Artist First (Joanna Wiebe Style) */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-serif font-light mb-4 leading-tight tracking-wide">
+        {/* Dark Overlay - elegant gradient for better contrast */}
+        <div className="absolute inset-0 z-1 bg-gradient-to-t from-black/75 via-black/40 to-black/30"></div>
+        {/* Text Content - clean, premium look without background */}
+        <div className="relative z-10 p-4 max-w-5xl mx-auto">
+          {/* Revised Hero - High-end design inspired by KT Merry */}
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-serif font-light mb-6 leading-tight tracking-wider text-white">
             {isSpanish ? 'Fotografía Que Susurra Al Alma. Instantes Que Desnudan Tu Verdad.' : 'Photography That Feels Like Art. Moments That Feel Like You.'}
           </h1>
-          <p className="text-lg md:text-xl max-w-3xl mx-auto mb-8 font-light leading-relaxed">
+          <p className="text-base md:text-lg max-w-3xl mx-auto mb-10 font-light leading-relaxed tracking-wide text-white/90">
             {isSpanish ? 'Soy David Josué, un artista visual cuya alma reside en cada disparo. Mi lente no se limita a capturar; desentraña verdades íntimas, emociones que vibran bajo la piel. Cada boda de destino se convierte en un lienzo de poesía visual; cada retrato, en una confesión silenciosa; cada sesión boudoir, en un ritual sagrado de empoderamiento femenino; cada paisaje, en una sinfonía que acaricia los sentidos. Desde mi santuario en Valle de Guadalupe, mi espírito nómada teje historias visuales destinadas a desafiar la eternidad.' : 'I\'m David Josué, a visual artist and photographer. I bring an artistic perspective to capture the true essence of your most important moments – destination weddings, intimate portraits, empowering boudoir, and evocative landscapes. Based in Valle de Guadalupe, serving the world.'}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-             {/* Revised CTAs - Using brand colors might be too much here, keeping white/transparent */}
-             <Link href={`/${lang}/portfolio`} className="inline-flex items-center justify-center rounded-md text-sm font-medium h-11 px-8 py-2 bg-white text-brand-text-primary hover:bg-brand-muted transition-colors"> {/* text-gray-900 -> text-brand-text-primary, hover:bg-gray-100 -> hover:bg-brand-muted */}
+          <div className="flex flex-col sm:flex-row gap-5 justify-center mt-4">
+             {/* Refined luxury CTAs */}
+             <Link href={`/${lang}/portfolio`} className="inline-flex items-center justify-center text-sm uppercase tracking-widest font-light px-10 py-3 bg-white text-brand-text-primary hover:bg-white/90 transition-all duration-300"> 
                {isSpanish ? 'Descubre Mi Universo Visual' : 'Explore My Work'}
              </Link>
-             <Link href={`/${lang}/contact`} className="inline-flex items-center justify-center rounded-md text-sm font-medium h-11 px-8 py-2 border border-white text-white hover:bg-white/10 transition-colors"> {/* Keep as is for contrast */}
+             <Link href={`/${lang}/contact`} className="inline-flex items-center justify-center text-sm uppercase tracking-widest font-light px-10 py-3 border border-white text-white hover:bg-white/10 transition-all duration-300"> 
                {isSpanish ? 'Iniciemos Una Conversación' : 'Inquire About Photography'}
              </Link>
           </div>

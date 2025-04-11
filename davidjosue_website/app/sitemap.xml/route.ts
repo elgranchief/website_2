@@ -8,7 +8,7 @@ import { PayloadPost, PayloadGallery } from '@/types/payload'; // Corrected path
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 const LANGUAGES = ['en-US', 'es-MX'];
 
-// Define interface for JSON data items (matching programmatic page)
+// Define interface for JSON data items (matching programmatic page) 
 interface PlaceJsonData {
   slug_en: string;
   slug_es: string;
