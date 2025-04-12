@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "lib/payload": ["./lib/payload"],
+      "components/PayloadRichText": ["./components/PayloadRichText"]
+    }
+  }
+}

@@ -1,6 +1,6 @@
 {
-  "version": 2,
-  "buildCommand": "cd davidjosue_website && npm install && npm run build",
+  "buildCommand": "cd davidjosue_website && npm run build",
+  "ignoreCommand": "cd davidjosue_website && node -e \"if (process.env.VERCEL_IGNORE_BUILD === '1') process.exit(1);\"",
   "outputDirectory": "davidjosue_website/.next",
-  "framework": "nextjs"
+  "installCommand": "cd davidjosue_website && npm install"
 }

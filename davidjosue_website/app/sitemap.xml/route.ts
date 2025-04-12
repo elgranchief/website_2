@@ -5,6 +5,8 @@ import { getAllGalleries } from '@/data/portfolio-galleries';
 import destinationsDataUntyped from '@/data/destinations.json';
 import locationsDataUntyped from '@/data/locations.json';
 import { StaticBlogPost, StaticGallery } from '@/types/static-content';
+// Import from payload explicitly with @ path to fix build errors
+// import { ... } from 'lib/payload'; // This was causing the error
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 const LANGUAGES = ['en-US', 'es-MX'];
