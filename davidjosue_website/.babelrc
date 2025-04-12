@@ -8,8 +8,11 @@
         "alias": {
           "@": "./",
           "lib/payload": "./lib/payload",
-          "components/PayloadRichText": "./components/PayloadRichText"
-        }
+          "components/PayloadRichText": "./components/PayloadRichText",
+          "'lib/payload'": "./lib/payload",
+          "'components/PayloadRichText'": "./components/PayloadRichText"
+        },
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
     ]
   ]

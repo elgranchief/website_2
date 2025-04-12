@@ -1,3 +1,10 @@
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Get __dirname equivalent in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -23,13 +30,24 @@ const nextConfig = {
       fs: false,
     };
     
-    // Fix for module not found errors
+    // Fix for module not found errors - using absolute paths
     config.resolve.alias = {
       ...config.resolve.alias,
-      // Add explicit mappings for problematic imports
-      'lib/payload': './lib/payload',
-      'components/PayloadRichText': './components/PayloadRichText'
+      // Use absolute paths for better resolution
+      '@': path.resolve(__dirname),
+      'lib/payload': path.resolve(__dirname, 'lib/payload.ts'),
+      'components/PayloadRichText': path.resolve(__dirname, 'components/PayloadRichText.tsx'),
+      // Add explicit mapping for all problematic imports with escaped quotes
+      "'lib/payload'": path.resolve(__dirname, 'lib/payload.ts'),
+      "'components/PayloadRichText'": path.resolve(__dirname, 'components/PayloadRichText.tsx'),
     };
+    
+    // Add resolveDirectories to find modules more easily
+    config.resolve.modules = [
+      path.resolve(__dirname),
+      'node_modules',
+      ...config.resolve.modules || [],
+    ];
     
     return config;
   },

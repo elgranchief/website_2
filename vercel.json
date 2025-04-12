@@ -1,6 +1,27 @@
 {
-  "buildCommand": "cd davidjosue_website && npm run build",
+  "buildCommand": "cd davidjosue_website && npm install babel-plugin-module-resolver && node symlinks.js && npm run build",
   "ignoreCommand": "cd davidjosue_website && node -e \"if (process.env.VERCEL_IGNORE_BUILD === '1') process.exit(1);\"",
   "outputDirectory": "davidjosue_website/.next",
-  "installCommand": "cd davidjosue_website && npm install"
+  "installCommand": "cd davidjosue_website && npm install",
+  "framework": "nextjs",
+  "functions": {
+    "davidjosue_website/lib/*.ts": {
+      "memory": 512,
+      "maxDuration": 15
+    },
+    "davidjosue_website/components/*.tsx": {
+      "memory": 512,
+      "maxDuration": 15
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/lib/payload",
+      "destination": "/davidjosue_website/lib/payload.ts"
+    },
+    {
+      "source": "/components/PayloadRichText",
+      "destination": "/davidjosue_website/components/PayloadRichText.tsx"
+    }
+  ]
 }

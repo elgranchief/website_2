@@ -4,7 +4,12 @@
     "paths": {
       "@/*": ["./*"],
       "lib/payload": ["./lib/payload"],
-      "components/PayloadRichText": ["./components/PayloadRichText"]
+      "components/PayloadRichText": ["./components/PayloadRichText"],
+      "'lib/payload'": ["./lib/payload"],
+      "'components/PayloadRichText'": ["./components/PayloadRichText"],
+      // Add paths to the new re-export files
+      "lib-payload": ["./lib-payload"],
+      "components-PayloadRichText": ["./components-PayloadRichText"]
     }
   }
 }
