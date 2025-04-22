@@ -2,6 +2,7 @@
 import type { Metadata, Viewport } from 'next';
 // Import chosen fonts: Cormorant Garamond and Lato
 import { Cormorant_Garamond, Lato } from 'next/font/google';
+import { Analytics } from "@vercel/analytics/react";
 import '../globals.css';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
@@ -110,6 +111,7 @@ export default function RootLayout({
             })(window, document, 'script', 'https://assets.flodesk.com', '/universal', 'fd');
           `}
         </Script>
+        <Analytics />
       </body>
     </html>
   );

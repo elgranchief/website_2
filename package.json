@@ -5,5 +5,8 @@
     "build": "cd davidjosue_website && npm run build",
     "start": "cd davidjosue_website && npm run start",
     "lint": "cd davidjosue_website && npm run lint"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^1.5.0"
   }
 }
