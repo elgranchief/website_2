@@ -1,6 +1,6 @@
 // /app/sitemap.xml/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { getAllPosts } from '@/data/blog-posts';
+import { getBlogPostsByLang } from '@/data/blog-posts'; // Corrected function name
 import { getAllGalleries } from '@/data/portfolio-galleries';
 import destinationsDataUntyped from '@/data/destinations.json';
 import locationsDataUntyped from '@/data/locations.json';
@@ -76,7 +76,7 @@ export async function GET(request: NextRequest) {
 
     // 2. Dynamic Blog Posts
     try {
-      const allPosts = getAllPosts();
+      const allPosts = getBlogPostsByLang(); // Corrected function call (assuming default 'en-US' is okay here, or pass lang if needed)
       allPosts.forEach((post: StaticBlogPost) => {
         LANGUAGES.forEach(lang => {
           const isSpanish = lang === 'es-MX';

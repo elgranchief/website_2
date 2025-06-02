@@ -1,9 +1,13 @@
+// Function to generate static paths for supported languages
+export async function generateStaticParams() {
+  return [{ lang: 'en-US' }, { lang: 'es-MX' }];
+}
 // /app/[lang]/blog/page.tsx
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getBlogPostsByLang } from '@/data/blog-posts'; // Use static blog data
-import { BlogPost } from '@/data/blog-posts'; // Use static blog types
+import { StaticBlogPost } from '@/types/static-content'; // Use correct static blog type
 import { formatDate } from '@/lib/utils';
 import { ScrollReveal } from '@/components/ScrollReveal'; // Import animation component
 // Import pagination component if you build one
@@ -16,17 +20,26 @@ export const metadata: Metadata = {
 // Revalidate blog index periodically (e.g., every hour)
 export const revalidate = 3600; // Revalidate every hour
 
-export default async function BlogIndexPage({ params, searchParams }: {
+export default async function BlogIndexPage({ params }: {
    params: { lang: string };
-   searchParams?: { [key: string]: string | string[] | undefined };
+   // searchParams removed for static export compatibility
  }) {
   const lang = params.lang === 'es-MX' ? 'es-MX' : 'en-US';
-  const page = typeof searchParams?.page === 'string' ? Number(searchParams.page) : 1;
    const limit = 9; // Number of posts per page
 
-   // Get blog posts using static data
-  const postsData = getBlogPostsByLang(lang, limit, page);
-  const { docs: posts, totalPages, hasNextPage, hasPrevPage } = postsData;
+   // Get all blog posts for the language
+   const allPosts = getBlogPostsByLang(lang);
+
+   // Manual pagination logic
+   const totalPosts = allPosts.length;
+   const totalPages = Math.ceil(totalPosts / limit) || 1; // Ensure totalPages is at least 1
+   // Hardcode page to 1 for static export
+   const page = 1;
+   const startIndex = (page - 1) * limit;
+   const endIndex = startIndex + limit;
+   const posts = allPosts.slice(startIndex, endIndex); // Get posts for the current page
+   const hasPrevPage = page > 1;
+   const hasNextPage = page < totalPages;
 
   return (
     <ScrollReveal>
@@ -43,7 +56,7 @@ export default async function BlogIndexPage({ params, searchParams }: {
       {posts && posts.length > 0 ? (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {posts.map((post: BlogPost) => { // Use BlogPost type
+            {posts.map((post: StaticBlogPost) => { // Use StaticBlogPost type
               const postSlug = post.slug;
 
               return (
@@ -67,7 +80,7 @@ export default async function BlogIndexPage({ params, searchParams }: {
                   <div className="p-4">
                     {/* TODO: Add Category/Tags */}
                     <h2 className="text-lg font-semibold mb-1 leading-tight group-hover:text-gray-700">{post.title}</h2>
-                    <p className="text-xs text-gray-500 mb-2" suppressHydrationWarning>{formatDate(post.publishedDate, lang)}</p>
+                    <p className="text-xs text-gray-500 mb-2" suppressHydrationWarning>{formatDate(post.date, lang)}</p>
                     {post.excerpt && (
                        <p className="text-sm text-gray-600 line-clamp-2" suppressHydrationWarning>{post.excerpt}</p>
                     )}
@@ -80,25 +93,7 @@ export default async function BlogIndexPage({ params, searchParams }: {
             })}
           </div>
 
-          {/* Pagination Controls */}
-          {totalPages > 1 && (
-             <div className="flex justify-center items-center space-x-4 mt-12">
-                {hasPrevPage && (
-                   <Link href={`/${lang}/blog?page=${page - 1}`} className="text-sm font-medium text-gray-600 hover:text-gray-900">
-                      ← {lang === 'es-MX' ? 'Anterior' : 'Previous'}
-                   </Link>
-                )}
-                <span className="text-sm text-gray-500">
-                   {lang === 'es-MX' ? `Página ${page} de ${totalPages}` : `Page ${page} of ${totalPages}`}
-                </span>
-                {hasNextPage && (
-                   <Link href={`/${lang}/blog?page=${page + 1}`} className="text-sm font-medium text-gray-600 hover:text-gray-900">
-                      {lang === 'es-MX' ? 'Siguiente' : 'Next'} →
-                   </Link>
-                )}
-             </div>
-          )}
-
+          {/* Pagination Controls removed for static export compatibility */}
         </>
       ) : (
         <div className="text-center py-16">

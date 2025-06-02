@@ -1,0 +1,10 @@
+[
+  {
+    "name": "fetch-mcp",
+    "description": "MCP server for fetching web content.",
+    "type": "stdio",
+    "command": ["node", "./fetch-mcp/dist/index.js"],
+    "enabled": true,
+    "logo": "./fetch-mcp/logo.jpg"
+  }
+]

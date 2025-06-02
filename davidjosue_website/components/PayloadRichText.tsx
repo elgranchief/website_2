@@ -1,6 +1,7 @@
 // Simple PayloadRichText component for rendering Payload CMS rich text content
 import React from 'react';
 import { PayloadRichTextNode } from '@/types/payload';
+import Image from 'next/image';
 
 interface PayloadRichTextProps {
   content: PayloadRichTextNode[] | any[];
@@ -40,7 +41,7 @@ export const PayloadRichText: React.FC<PayloadRichTextProps> = ({ content }) => 
 
     // Handle elements with children
     if (node.children) {
-      const children = node.children.map((child, childIndex) => 
+      const children = node.children.map((child: PayloadRichTextNode, childIndex: number) =>
         renderNode(child, childIndex)
       );
 
@@ -81,10 +82,13 @@ export const PayloadRichText: React.FC<PayloadRichTextProps> = ({ content }) => 
         case 'upload':
           return (
             <div key={index} className="my-4">
-              <img 
-                src={typeof node.value === 'object' && node.value?.url ? node.value.url : ''} 
-                alt={typeof node.value === 'object' && node.value?.alt ? node.value.alt : 'Image'} 
-                className="max-w-full h-auto"
+              {/* TODO: Adjust width and height */}
+              <Image
+                src={typeof node.value === 'object' && node.value?.url ? node.value.url : ''}
+                alt={typeof node.value === 'object' && node.value?.alt ? node.value.alt : 'Image'}
+                width={500} // Placeholder width
+                height={300} // Placeholder height
+                className="max-w-full h-auto" // Maintain responsive scaling
               />
             </div>
           );

@@ -1,3 +1,7 @@
+// Function to generate static paths for supported languages
+export async function generateStaticParams() {
+  return [{ lang: 'en-US' }, { lang: 'es-MX' }];
+}
 // /app/[lang]/portfolio/page.tsx
 import { Metadata } from 'next';
 import Link from 'next/link';
@@ -51,12 +55,16 @@ export default function PortfolioIndexPage({ params }: { params: { lang: string 
                     className="group block bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300"
                   >
                     <div className="aspect-square overflow-hidden bg-gray-100 relative">
-                      <img 
-                        src={gallery.featuredImage.url} 
-                        alt={gallery.featuredImage.alt || galleryTitle} 
-                        style={{width: '100%', height: '100%', objectFit: 'cover'}}
-                        className="transition-transform duration-300 group-hover:scale-105" 
-                        loading="lazy" 
+                      {/* TODO: Adjust width and height - needed for static export even with fill */}
+                      <Image
+                        src={gallery.featuredImage.url}
+                        alt={gallery.featuredImage.alt || galleryTitle}
+                        fill // Use fill to make the image cover the container
+                        style={{ objectFit: 'cover' }} // Maintain cover behavior
+                        className="transition-transform duration-300 group-hover:scale-105"
+                        sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw" // Provide sizes for optimization
+                        width={500} // Placeholder width
+                        height={300} // Placeholder height
                       />
                       {/* Optional overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-4">

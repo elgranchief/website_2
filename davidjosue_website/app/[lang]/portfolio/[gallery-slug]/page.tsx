@@ -4,10 +4,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getGalleryBySlug, getAllGalleries } from '@/data/portfolio-galleries';
+import { portfolioGalleries } from '@/data/portfolio-galleries'; // Import gallery data
 import { SimpleRichText } from '@/components/SimpleRichText';
 import { StaticGallery, StaticImage } from '@/types/static-content';
 import { ScrollReveal } from '@/components/ScrollReveal';
-
 // Generate Metadata
 export async function generateMetadata({ params }: { params: { lang: string, 'gallery-slug': string } }): Promise<Metadata> {
     const lang = params.lang === 'es-MX' ? 'es-MX' : 'en-US';

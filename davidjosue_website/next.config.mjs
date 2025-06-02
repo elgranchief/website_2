@@ -9,8 +9,9 @@ const __dirname = path.dirname(__filename);
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  // Removed output: 'export' to enable middleware and image optimization
   images: {
-    unoptimized: true, // Disable image optimization
+    // Re-enabled image optimization by removing unoptimized setting
     remotePatterns: [
       {
         protocol: 'https',

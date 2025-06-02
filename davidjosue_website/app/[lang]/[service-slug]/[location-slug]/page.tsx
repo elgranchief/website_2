@@ -145,7 +145,7 @@ export default async function ServiceLocationPage({ params }: { params: { lang: 
                             {lang === 'es-MX' ? `Galería: ${data.serviceName} en ${data.placeName}` : `${data.serviceName} in ${data.placeName} Gallery`}
                         </h2>
                          <div className="p-4 bg-blue-100 text-blue-800 rounded text-center">
-                             [Placeholder: Dynamic gallery fetching images tagged with '{data.serviceTag}' AND '{data.placeTag}' from Payload CMS will be displayed here.]
+                             [Placeholder: Dynamic gallery fetching images tagged with &amp;apos;{data.serviceTag}&amp;apos; AND &amp;apos;{data.placeTag}&amp;apos; from Payload CMS will be displayed here.]
                              {/* Render actual gallery using 'galleryImages' when implemented */}
                          </div>
                      </div>
@@ -167,7 +167,7 @@ export default async function ServiceLocationPage({ params }: { params: { lang: 
                              {lang === 'es-MX' ? `La Experiencia` : `The Experience`}
                          </h2>
                          <p className="text-gray-600 text-center">
-                            {lang === 'es-MX' ? `Desde la consulta inicial hasta la entrega final, te guiaré en cada paso para ${data.serviceName.toLowerCase()} en ${data.placeName}.` : `From initial consultation to final delivery, I'll guide you every step of the way for your ${data.serviceName.toLowerCase()} in ${data.placeName}.`}
+                            {lang === 'es-MX' ? `Desde la consulta inicial hasta la entrega final, te guiaré en cada paso para ${data.serviceName.toLowerCase()} en ${data.placeName}.` : `From initial consultation to final delivery, I&apos;ll guide you every step of the way for your ${data.serviceName.toLowerCase()} in ${data.placeName}.`}
                          </p>
                           {/* Add steps */}
                       </div>
@@ -190,7 +190,7 @@ export default async function ServiceLocationPage({ params }: { params: { lang: 
                            {lang === 'es-MX' ? `Reserva tu ${data.serviceName} en ${data.placeName}` : `Book Your ${data.serviceName} in ${data.placeName}`}
                          </h2>
                          <p className="text-lg text-gray-600 mb-8">
-                           {lang === 'es-MX' ? 'Verifiquemos mi disponibilidad y comencemos a planificar.' : 'Let\'s check my availability and start planning.'}
+                           {lang === 'es-MX' ? 'Verifiquemos mi disponibilidad y comencemos a planificar.' : 'Let&apos;s check my availability and start planning.'}
                          </p>
                          <Link href={`/${lang}/contact`} className="inline-flex items-center justify-center rounded-md text-sm font-medium h-11 px-8 py-2 bg-gray-900 text-white hover:bg-gray-800 transition-colors">
                             {lang === 'es-MX' ? `Solicitar Información` : `Inquire Now`}

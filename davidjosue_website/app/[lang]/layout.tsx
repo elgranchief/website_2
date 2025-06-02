@@ -89,7 +89,7 @@ export default function RootLayout({
         </div>
 
         {/* Flodesk Universal Code */}
-        <Script id="flodesk-universal" strategy="beforeInteractive">
+        <Script id="flodesk-universal" strategy="lazyOnload">
           {`
             (function(w, d, t, h, s, n) {
               w.FlodeskObject = n;

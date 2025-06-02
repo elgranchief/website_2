@@ -69,7 +69,7 @@ export const blogPosts: StaticBlogPost[] = [
 ];
 
 // Helper function to get post by slug
-export function getPostBySlug(slug: string, lang: string = 'en-US'): StaticBlogPost | null {
+export function getBlogPostBySlug(slug: string, lang: string = 'en-US'): StaticBlogPost | null {
   const isSpanish = lang === 'es-MX';
   return blogPosts.find(post => 
     isSpanish ? post.slugEs === slug : post.slug === slug
@@ -77,6 +77,6 @@ export function getPostBySlug(slug: string, lang: string = 'en-US'): StaticBlogP
 }
 
 // Helper function to get all posts
-export function getAllPosts(lang: string = 'en-US'): StaticBlogPost[] {
+export function getBlogPostsByLang(lang: string = 'en-US'): StaticBlogPost[] {
   return blogPosts;
 }

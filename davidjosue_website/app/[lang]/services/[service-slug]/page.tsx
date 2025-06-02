@@ -77,10 +77,16 @@ export async function generateMetadata({ params }: { params: { lang: string, 'se
 }
 
 // TODO: Implement generateStaticParams if using SSG
-// export async function generateStaticParams({ params }: { params: { lang: string } }) {
-//   const serviceSlugs = ['destination-weddings', 'boudoir', 'events']; // Or fetch from data/CMS
-//   return serviceSlugs.map(slug => ({ 'service-slug': slug }));
-// }
+export function generateStaticParams() {
+  const serviceSlugs = ['destination-weddings', 'boudoir', 'events']; // Defined based on getServiceData
+  const languages = ['en-US', 'es-MX'];
+  
+  const paths = languages.flatMap(lang =>
+    serviceSlugs.map(slug => ({ lang: lang, 'service-slug': slug }))
+  );
+  
+  return paths;
+}
 
 
 export default function ServicePage({ params }: { params: { lang: string, 'service-slug': string } }) {
@@ -231,7 +237,7 @@ export default function ServicePage({ params }: { params: { lang: string, 'servi
                  <div className="flex flex-col items-center md:items-start text-center md:text-left">
                    <div className="bg-gray-800 text-white rounded-full w-10 h-10 flex items-center justify-center text-lg font-semibold mb-4">3</div>
                    <h3 className="text-lg font-semibold mb-2">{lang === 'es-MX' ? '3. La Danza Del Instante' : 'Enjoy (I Capture)'}</h3>
-                   <p className="text-sm text-gray-600">{lang === 'es-MX' ? 'Abandónate al fluir sagrado del momento mientras mi mirada captura la magia invisible. Seré un testigo silente, inmortalizando la emoción desnuda y guiándote con susurros.' : 'You relax and live every moment. I’ll handle capturing the magic, the emotion, and the beauty authentically and artfully.'}</p>
+                   <p className="text-sm text-gray-600">{lang === 'es-MX' ? 'Abandónate al fluir sagrado del momento mientras mi mirada captura la magia invisible. Seré un testigo silente, moviéndome con la gracia de una sombra, inmortalizando la emoción desnuda y guiándote con susurros.' : 'You relax and live every moment. I’ll handle capturing the magic, the emotion, and the beauty authentically and artfully.'}</p>
                  </div>
                  {/* Step 4 */}
                  <div className="flex flex-col items-center md:items-start text-center md:text-left">
@@ -370,7 +376,7 @@ export default function ServicePage({ params }: { params: { lang: string, 'servi
                  <Image src="/reviews/david-josue-photography-client-testimonial-valle-guadalupe-wedding.jpg" alt="Reviewer 1" width={60} height={60} className="rounded-full flex-shrink-0" unoptimized />
                  <blockquote className="flex-grow">
                    <div className="text-yellow-500 mb-2">★★★★★</div> {/* Star Rating */}
-                   <p className="text-gray-700 italic mb-3 text-sm">"{lang === 'es-MX' ? '¡Las imágenes son portales dimensionales! David capturó la energía sagrada y la emoción desnuda con una autenticidad y arte que trascienden. El proceso fluyó como una danza cósmica, sin esfuerzo ni tensión.' : 'The photos are a magical time-machine! David captured the energy and magic of our day so perfectly – real and artistic. Plus, he made the whole process incredibly easy and stress-free.'}"</p>
+                   <p className="text-gray-700 italic mb-3 text-sm">{isSpanish ? '"¡Las imágenes son portales dimensionales! David capturó la energía sagrada y la emoción desnuda con una autenticidad y arte que trascienden. El proceso fluyó como una danza cósmica, sin esfuerzo ni tensión."' : '"The photos are a magical time-machine! David captured the energy and magic of our day so perfectly – real and artistic. Plus, he made the whole process incredibly easy and stress-free."'}</p>
                    <footer className="text-xs text-gray-500 font-medium">- {lang === 'es-MX' ? 'Ana & Carlos, Unión Sagrada en Valle de Guadalupe' : 'Ana & Carlos, Valle de Guadalupe Wedding'}</footer>
                  </blockquote>
                </div>
@@ -379,7 +385,7 @@ export default function ServicePage({ params }: { params: { lang: string, 'servi
                  <Image src="/reviews/david-josue-photography-client-testimonial-san-miguel-allende-wedding.jpg" alt="Reviewer 2" width={60} height={60} className="rounded-full flex-shrink-0" unoptimized />
                  <blockquote className="flex-grow">
                    <div className="text-yellow-500 mb-2">★★★★★</div> {/* Star Rating */}
-                   <p className="text-gray-700 italic mb-3 text-sm">"{lang === 'es-MX' ? 'No somos de poses forzadas, pero la presencia de David nos envolvió en calma. Capturó susurros visuales, instantes de verdad que ni sospechábamos. Cada imagen es una obsesión sagrada.' : 'We are *not* people who love posing, but David made us feel relaxed. He caught so many beautiful, candid moments we didn\'t even know were happening. We\'re obsessed with every single photo!'}"</p>
+                   <p className="text-gray-700 italic mb-3 text-sm">{isSpanish ? '"No somos de poses forzadas, pero la presencia de David nos envolvió en calma. Capturó susurros visuales, instantes de verdad que ni sospechábamos. Cada imagen es una obsesión sagrada."' : "We are *not* people who love posing, but David made us feel relaxed. He caught so many beautiful, candid moments we didn't even know were happening. We're obsessed with every single photo!"}</p>
                    <footer className="text-xs text-gray-500 font-medium">- {lang === 'es-MX' ? 'Sofia & Javier, Ceremonia en SMA' : 'Sofia & Javier, SMA Wedding'}</footer>
                  </blockquote>
                </div>
@@ -388,7 +394,7 @@ export default function ServicePage({ params }: { params: { lang: string, 'servi
                  <Image src="/reviews/david-josue-photography-client-testimonial-riviera-maya-wedding.jpg" alt="Reviewer 3" width={60} height={60} className="rounded-full flex-shrink-0" unoptimized />
                  <blockquote className="flex-grow">
                    <div className="text-yellow-500 mb-2">★★★★★</div> {/* Star Rating */}
-                   <p className="text-gray-700 italic mb-3 text-sm">"{lang === 'es-MX' ? 'La mirada de David es alquimia pura. Vio nuestro santuario con ojos que trascienden lo visible, y las imágenes son plegarias visuales que cortan la respiración. Un artista en toda la extensión sagrada de la palabra.' : 'David\'s artistic eye is incredible. He saw our venue in ways we never imagined, and the photos are breathtaking. A true professional!'}"</p>
+                   <p className="text-gray-700 italic mb-3 text-sm">{isSpanish ? '"La mirada de David es alquimia pura. Vio nuestro santuario con ojos que trascienden lo visible, y las imágenes son plegarias visuales que cortan la respiración. Un artista en toda la extensión sagrada de la palabra."' : "David's artistic eye is incredible. He saw our venue in ways we never imagined, and the photos are breathtaking. A true professional!"}</p>
                    <footer className="text-xs text-gray-500 font-medium">- {lang === 'es-MX' ? 'Elena & Mateo, Ritual en Riviera Maya' : 'Elena & Mateo, Riviera Maya Wedding'}</footer>
                  </blockquote>
                </div>
@@ -397,7 +403,7 @@ export default function ServicePage({ params }: { params: { lang: string, 'servi
                  <Image src="/reviews/david-josue-photography-client-testimonial-paris-destination-wedding.jpg" alt="Reviewer 4" width={60} height={60} className="rounded-full flex-shrink-0" unoptimized />
                  <blockquote className="flex-grow">
                    <div className="text-yellow-500 mb-2">★★★★★</div> {/* Star Rating */}
-                   <p className="text-gray-700 italic mb-3 text-sm">"{lang === 'es-MX' ? 'Co-crear con David fue una bendición cósmica. Su talento es un don, su amabilidad un bálsamo, y sus imágenes son el eco perfecto de nuestra alma compartida.' : 'Working with David was one of the best decisions we made. He\'s talented, kind, and his photos tell our story perfectly.'}"</p>
+                   <p className="text-gray-700 italic mb-3 text-sm">{isSpanish ? '"Co-crear con David fue una bendición cósmica. Su talento es un don, su amabilidad un bálsamo, y sus imágenes son el eco perfecto de nuestra alma compartida."' : "Working with David was one of the best decisions we made. He's talented, kind, and his photos tell our story perfectly."}</p>
                    <footer className="text-xs text-gray-500 font-medium">- {lang === 'es-MX' ? 'Isabella & Diego, Unión en París' : 'Isabella & Diego, Paris Wedding'}</footer>
                  </blockquote>
                </div>

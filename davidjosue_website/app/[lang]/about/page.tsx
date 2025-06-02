@@ -1,3 +1,7 @@
+// Function to generate static paths for supported languages
+export async function generateStaticParams() {
+  return [{ lang: 'en-US' }, { lang: 'es-MX' }];
+}
 // /app/[lang]/about/page.tsx
 import { Metadata } from 'next';
 import Image from 'next/image';

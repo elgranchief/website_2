@@ -1,0 +1,19 @@
+name: davidjosue-website
+region: sfo3
+services:
+- name: web
+  github:
+    repo: elgranchief/website_2
+    branch: main
+    deploy_on_push: true
+  build_command: cd davidjosue_website && npm install && npm run build
+  run_command: cd davidjosue_website && npm start
+  environment_slug: node-js
+  instance_size_slug: basic-xxs
+  instance_count: 1
+  http_port: 3000
+  routes:
+  - path: /
+  envs:
+  - key: NODE_ENV
+    value: production

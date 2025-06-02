@@ -1,141 +1,29 @@
-'use client';
+// Removed 'use client'; - This is now a Server Component
 
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ScrollReveal } from '@/components/ScrollReveal'; // Import animation component
+import { PrintButton } from '@/components/PrintButton'; // Import the print button client component
+import { PrintStyles } from '@/components/PrintStyles'; // Import the print styles client component
 
-// Refined Printer Icon SVG component
-const PrinterIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0 1 10.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0 .229 2.523a1.125 1.125 0 0 1-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0 0 21 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 0 0-1.913-.247M6.34 18H5.25A2.25 2.25 0 0 1 3 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 0 1 1.913-.247m10.5 0a48.536 48.536 0 0 0-10.5 0M12 12.75h.008v.008H12v-.008Z" />
-  </svg>
-);
+// Function to generate static paths for supported languages
+export async function generateStaticParams() {
+  return [{ lang: 'en-US' }, { lang: 'es-MX' }];
+}
 
-// Enhanced print styles for elegant CV printing
-const PrintStyles = () => (
-  <style jsx global>{`
-    @media print {
-      /* Page setup */
-      @page {
-        size: portrait;
-        margin: 1.5cm;
-      }
-      
-      /* Hide non-essential elements */
-      .print\\:hidden,
-      button {
-        display: none !important;
-      }
-      
-      /* Style the main container */
-      .min-h-screen {
-        min-height: auto !important;
-        background: white !important;
-        padding: 0 !important;
-      }
-      
-      /* Format the header area */
-      .bg-brand-text-primary {
-        background: white !important;
-        color: black !important;
-        padding: 0 !important;
-        margin-bottom: 1cm !important;
-      }
-      
-      /* Make sure text is black and formatting is clean */
-      h1, h2, h3, p, li, span, div {
-        color: black !important;
-        text-shadow: none !important;
-      }
-      
-      h2 {
-        font-size: 16pt !important;
-        margin-bottom: 0.5cm !important;
-        border-bottom: 1px solid #000 !important;
-        padding-bottom: 0.2cm !important;
-      }
-      
-      h3 {
-        font-size: 14pt !important;
-        margin-bottom: 0.3cm !important;
-      }
-      
-      p, li {
-        font-size: 11pt !important;
-        line-height: 1.4 !important;
-      }
-      
-      /* Format sections */
-      section {
-        background: white !important;
-        border: none !important;
-        box-shadow: none !important;
-        margin-bottom: 0.7cm !important;
-        padding: 0 !important;
-        page-break-inside: avoid !important;
-      }
-      
-      /* Format the profile image */
-      .rounded-full {
-        border-radius: 0 !important;
-        border: 1px solid #000 !important;
-      }
-      
-      /* Format borders */
-      .border-l {
-        border-left: 1px solid #000 !important;
-        margin-left: 0 !important;
-        padding-left: 0.5cm !important;
-        margin-bottom: 0.4cm !important;
-      }
-      
-      /* Show the print-only title */
-      .hidden.print\\:block {
-        display: block !important;
-        font-size: 18pt !important;
-        text-align: center !important;
-        margin-bottom: 0.5cm !important;
-        font-weight: bold !important;
-      }
-      
-      /* Format columns */
-      .grid {
-        display: block !important;
-      }
-      
-      .grid > div {
-        margin-bottom: 0.5cm !important;
-      }
-      
-      /* Ensure proper spacing between elements */
-      .space-y-16 > * + * {
-        margin-top: 0.7cm !important;
-      }
-      
-      .space-y-10 > * + * {
-        margin-top: 0.5cm !important;
-      }
-      
-      .space-y-6 > * + * {
-        margin-top: 0.3cm !important;
-      }
-    }
-  `}</style>
-);
+// PrintStyles component moved to PrintStyles.tsx
 
 
 export default function CVPage({ params }: { params: { lang: string } }) {
   const lang = params.lang === 'es-MX' ? 'es-MX' : 'en-US';
   const isSpanish = lang === 'es-MX';
 
-  const handlePrint = () => {
-    window.print();
-  };
+  // handlePrint moved to PrintButton.tsx
 
   return (
     <>
-      {/* Include the print styles */}
+      {/* Include the print styles (now a Client Component) */}
       <PrintStyles />
       
       {/* Clean, minimal layout with proper whitespace */}
@@ -194,15 +82,8 @@ export default function CVPage({ params }: { params: { lang: string } }) {
 
         {/* CV Content Area - Luxurious spacing */}
         <div className="max-w-screen-xl mx-auto px-6 md:px-10 lg:px-16 xl:px-20 py-16 md:py-26 lg:py-34 relative"> 
-          {/* Minimalist Print Button */}
-          <button 
-            onClick={handlePrint}
-            className="absolute top-16 right-6 md:right-10 lg:right-16 xl:right-20 print:hidden flex items-center gap-4 py-2 text-brand-text-secondary hover:text-brand-accent transition-colors duration-400 ease-elegant"
-            aria-label={isSpanish ? 'Imprimir CV' : 'Print CV'}
-          >
-            <span className="text-xs tracking-widest uppercase font-light">{isSpanish ? 'Imprimir' : 'Print'}</span>
-            <PrinterIcon className="w-5 h-5" />
-          </button>
+          {/* Use the Client Component for the print button */}
+          <PrintButton lang={lang} />
 
         {/* Printable CV content starts here */}
         {/* <ScrollReveal> Removed from here */}
@@ -431,24 +312,24 @@ export default function CVPage({ params }: { params: { lang: string } }) {
               </h3>
               <div className="space-y-6 text-brand-text-secondary font-light">
                 <div>
-                  <p className="font-medium">"Burger P.I." (2004)</p>
+                  <p className="font-medium">&amp;quot;Burger P.I.&amp;quot; (2004)</p>
                   <p className="text-sm mt-1">{isSpanish ? 'Piloto para serie de televisión' : 'TV Series Pilot'}</p>
                 </div>
                 
                 <div>
-                  <p className="font-medium">"El Funeral de los Dedos" (2001)</p>
+                  <p className="font-medium">&amp;quot;El Funeral de los Dedos&amp;quot; (2001)</p>
                   <p className="text-sm mt-1">{isSpanish ? 'Cortometraje 16mm' : '16mm Short Film'}</p>
                   <ul className="bullet-list pl-5 text-sm mt-2 space-y-1">
-                    <li>{isSpanish ? 'Selección Oficial, "CineClub Regional", U. Sonora' : 'Official Selection, "CineClub Regional", U. Sonora'}</li>
+                    <li>{isSpanish ? 'Selección Oficial, &amp;quot;CineClub Regional&amp;quot;, U. Sonora' : 'Official Selection, &amp;quot;CineClub Regional&amp;quot;, U. Sonora'}</li>
                     <li>{isSpanish ? 'Muestra 30 Aniversario Proyectos Cinematográficos MTY' : '30th Anniversary Showcase Film Projects MTY'}</li>
                   </ul>
                 </div>
                 
                 <div>
-                  <p className="font-medium">"Hormiguitas" (2000)</p>
+                  <p className="font-medium">&amp;quot;Hormiguitas&amp;quot; (2000)</p>
                   <p className="text-sm mt-1">{isSpanish ? 'Mokumental' : 'Mocumentary'}</p>
                   <ul className="bullet-list pl-5 text-sm mt-2 space-y-1">
-                    <li>{isSpanish ? 'Mención Honorífica, "Primera Toma", U. Sonora' : 'Honorable Mention, "Primera Toma", U. Sonora'}</li>
+                    <li>{isSpanish ? 'Mención Honorífica, &amp;quot;Primera Toma&amp;quot;, U. Sonora' : 'Honorable Mention, &amp;quot;Primera Toma&amp;quot;, U. Sonora'}</li>
                     <li>{isSpanish ? 'Selección Oficial, Festival Creadores Sonorenses UNISON' : 'Official Selection, Sonoran Creators Festival UNISON'}</li>
                   </ul>
                 </div>
@@ -462,12 +343,12 @@ export default function CVPage({ params }: { params: { lang: string } }) {
               </h3>
               <div className="space-y-6 text-brand-text-secondary font-light">
                 <div>
-                  <p className="font-medium">"Rumores" (2002-2004)</p>
+                  <p className="font-medium">&amp;quot;Rumores&amp;quot; (2002-2004)</p>
                   <p className="text-sm mt-1">{isSpanish ? 'Serie de televisión (48 capítulos)' : 'TV Series (48 episodes)'}</p>
                 </div>
                 
                 <div>
-                  <p className="font-medium">"El Burócrata" (2004)</p>
+                  <p className="font-medium">&amp;quot;El Burócrata&amp;quot; (2004)</p>
                   <p className="text-sm mt-1">{isSpanish ? 'Cortometraje animado (Dir. Jorge Flores)' : 'Animated Short Film (Dir. Jorge Flores)'}</p>
                   <ul className="bullet-list pl-5 text-sm mt-2">
                     <li>{isSpanish ? 'Proyecto ganador beca Fullbright 2004-2006' : 'Fullbright Grant winning project 2004-2006'}</li>
@@ -475,7 +356,7 @@ export default function CVPage({ params }: { params: { lang: string } }) {
                 </div>
                 
                 <div>
-                  <p className="font-medium">"Ocho de Lejos" (2003)</p>
+                  <p className="font-medium">&amp;quot;Ocho de Lejos&amp;quot; (2003)</p>
                   <p className="text-sm mt-1">{isSpanish ? 'Cortometraje 16mm (Dir. Raúl Treviño)' : '16mm Short Film (Dir. Raúl Treviño)'}</p>
                   <ul className="bullet-list pl-5 text-sm mt-2">
                     <li>{isSpanish ? 'Selección Oficial, Festival Int. Cine Michoacán' : 'Official Selection, Michoacán Int. Film Festival'}</li>

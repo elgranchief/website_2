@@ -2,22 +2,24 @@
 // This stub implementation provides the expected function signatures
 // but returns dummy data to allow the build to complete
 
-import { PayloadGallery, PayloadPost } from '../types/payload';
+import { StaticGallery, StaticBlogPost } from '../types/static-content'; // Use static types for stub
 
 /**
  * Get a gallery by its slug
  */
-export async function getGalleryBySlug(slug: string, lang: string = 'en-US'): Promise<PayloadGallery | null> {
+export async function getGalleryBySlug(slug: string, lang: string = 'en-US'): Promise<StaticGallery | null> {
   console.log(`[Stub] getGalleryBySlug called with slug: ${slug}, lang: ${lang}`);
   // Return a dummy gallery object
+  // Return a dummy gallery object matching StaticGallery structure (partially)
   return {
     id: `gallery-${slug}`,
     title: `Gallery: ${slug}`,
     slug: slug,
-    description: [],
-    images: [],
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
+    // description: [], // StaticGallery doesn't have description array
+    featuredImage: { id: 'dummy', url: '/placeholder.jpg' }, // Add required featuredImage
+    images: [], // StaticGallery expects StaticImage[]
+    // createdAt: new Date().toISOString(), // Not in StaticGallery
+    // updatedAt: new Date().toISOString(), // Not in StaticGallery
   };
 }
 
@@ -28,7 +30,7 @@ export async function getPublishedGalleries(lang: string = 'en-US', limit: numbe
   console.log(`[Stub] getPublishedGalleries called with lang: ${lang}, limit: ${limit}, page: ${page}`);
   // Return a dummy pagination result with empty galleries
   return {
-    docs: [] as PayloadGallery[],
+    docs: [] as StaticGallery[],
     totalDocs: 0,
     limit: limit,
     totalPages: 0,
@@ -48,7 +50,7 @@ export async function getPublishedPosts(lang: string = 'en-US', limit: number = 
   console.log(`[Stub] getPublishedPosts called with lang: ${lang}, limit: ${limit}, page: ${page}`);
   // Return a dummy pagination result with empty posts
   return {
-    docs: [] as PayloadPost[],
+    docs: [] as StaticBlogPost[],
     totalDocs: 0,
     limit: limit,
     totalPages: 0,
@@ -64,15 +66,18 @@ export async function getPublishedPosts(lang: string = 'en-US', limit: number = 
 /**
  * Get a post by its slug
  */
-export async function getPostBySlug(slug: string, lang: string = 'en-US'): Promise<PayloadPost | null> {
+export async function getPostBySlug(slug: string, lang: string = 'en-US'): Promise<StaticBlogPost | null> {
   console.log(`[Stub] getPostBySlug called with slug: ${slug}, lang: ${lang}`);
   // Return a dummy post object
+  // Return a dummy post object matching StaticBlogPost structure (partially)
   return {
     id: `post-${slug}`,
     title: `Post: ${slug}`,
     slug: slug,
-    content: [],
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
+    content: '', // StaticBlogPost expects string content
+    featuredImage: { id: 'dummy', url: '/placeholder.jpg' }, // Add required featuredImage
+    date: new Date().toISOString().split('T')[0], // Add required date
+    // createdAt: new Date().toISOString(), // Not in StaticBlogPost
+    // updatedAt: new Date().toISOString(), // Not in StaticBlogPost
   };
 }

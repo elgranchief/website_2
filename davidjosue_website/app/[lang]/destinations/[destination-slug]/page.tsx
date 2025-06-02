@@ -1,10 +1,10 @@
+import destinationsData from '@/data/destinations.json'; // Import destination data
 // /app/[lang]/destinations/[destination-slug]/page.tsx
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-// Import static destination data
-import destinationsData from '@/data/destinations.json'; // Use path alias
+// Import static destination data (already imported on line 1)
 // TODO: Import function to fetch portfolio items/images tagged with this destination from Payload
 import { ScrollReveal } from '@/components/ScrollReveal'; // Import animation component
 interface Destination {
@@ -142,7 +142,7 @@ export default async function DestinationPage({ params }: { params: { lang: stri
               {lang === 'es-MX' ? `Galería: ${name}` : `${name} Gallery`}
             </h2>
              <div className="p-4 bg-blue-100 text-blue-800 rounded text-center">
-                 [Placeholder: Dynamic gallery fetching images tagged '{slug}' from Payload CMS will be displayed here.]
+                 [Placeholder: Dynamic gallery fetching images tagged &amp;apos;{slug}&amp;apos; from Payload CMS will be displayed here.]
                  {/* Render actual gallery using 'galleryImages' data when implemented */}
                   {/* <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                      {galleryImages.map((img) => (

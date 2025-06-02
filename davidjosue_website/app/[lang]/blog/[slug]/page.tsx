@@ -4,9 +4,19 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getBlogPostBySlug } from '@/data/blog-posts';
+import { blogPosts } from '@/data/blog-posts'; // Import blog post data for static params
 import { formatDate } from '@/lib/utils';
 import { ScrollReveal } from '@/components/ScrollReveal';
 
+// Function to generate static paths for blog posts
+export async function generateStaticParams() {
+  const paths = blogPosts.flatMap(post => [
+    { lang: 'en-US', slug: post.slug },
+    { lang: 'es-MX', slug: post.slugEs },
+  ]);
+  // Filter out any potential undefined slugs if slugEs is missing
+  return paths.filter(p => p.slug); 
+}
 // Dynamic metadata generation
 export async function generateMetadata({ 
   params 
@@ -29,7 +39,7 @@ export async function generateMetadata({
       title: post.title,
       description: post.excerpt,
       type: 'article',
-      publishedTime: post.publishedDate,
+      publishedTime: post.date,
       images: post.featuredImage ? [
         {
           url: post.featuredImage.url,
@@ -65,8 +75,8 @@ export default async function BlogPostPage({ params }: { params: { lang: string;
             {post.title}
           </h1>
           <div className="flex items-center gap-4 text-sm text-gray-500 mb-8">
-            <time dateTime={post.publishedDate}>
-              {formatDate(post.publishedDate, lang)}
+            <time dateTime={post.date}>
+              {formatDate(post.date, lang)}
             </time>
             {post.tags && post.tags.length > 0 && (
               <div className="flex flex-wrap gap-2">

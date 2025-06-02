@@ -1,3 +1,7 @@
+// Function to generate static paths for supported languages
+export async function generateStaticParams() {
+  return [{ lang: 'en-US' }, { lang: 'es-MX' }];
+}
 // /app/[lang]/page.tsx (Homepage)
 import { Metadata } from 'next';
 import Image from 'next/image';
@@ -5,6 +9,19 @@ import Link from 'next/link';
 import { FlodeskForm } from '../../components/FlodeskForm';
 import { ScrollReveal } from '../../components/ScrollReveal'; // Import animation component
 import { formatDate } from '../../lib/utils'; // Utility function for date formatting
+import { 
+  PremiumHero, 
+  PremiumButton, 
+  PremiumSection,
+  ServiceGrid, 
+  ServiceCard,
+  ProcessStep
+} from '../../components/PremiumUI';
+import {
+  EditorialLayout,
+  ImageRow,
+  HeroImageWithText
+} from '../../components/PremiumGallery';
 
 // Define metadata specifically for the homepage
 export const metadata: Metadata = {
@@ -31,223 +48,284 @@ export default async function HomePage({ params }: { params: { lang: string } })
 
   return (
     <div className="flex flex-col">
-      {/* Hero Section */}
-      {/* No animation needed for the initial hero section */}
-      <section className="relative h-[70vh] md:h-[85vh] w-full flex items-center justify-center text-center text-white overflow-hidden"> {/* Removed bg-dark */}
-        {/* Background Image */}
-        <Image
-          src="/images/david-josue-wedding-photography-hero-image.jpg"
-          alt="Stunning wedding photo backdrop"
-          fill
-          style={{ objectFit: 'cover' }}
-          quality={85}
-          priority // Load hero image first
-          className="absolute inset-0 z-0" // Removed opacity
-        />
-        {/* Dark Overlay - elegant gradient for better contrast */}
-        <div className="absolute inset-0 z-1 bg-gradient-to-t from-black/75 via-black/40 to-black/30"></div>
-        {/* Text Content - clean, premium look without background */}
-        <div className="relative z-10 p-4 max-w-5xl mx-auto">
-          {/* Revised Hero - High-end design inspired by KT Merry */}
-          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-serif font-light mb-6 leading-tight tracking-wider text-white">
-            {isSpanish ? 'Fotografía Que Susurra Al Alma. Instantes Que Desnudan Tu Verdad.' : 'Photography That Feels Like Art. Moments That Feel Like You.'}
-          </h1>
-          <p className="text-base md:text-lg max-w-3xl mx-auto mb-10 font-light leading-relaxed tracking-wide text-white/90">
-            {isSpanish ? 'Soy David Josué, un artista visual cuya alma reside en cada disparo. Mi lente no se limita a capturar; desentraña verdades íntimas, emociones que vibran bajo la piel. Cada boda de destino se convierte en un lienzo de poesía visual; cada retrato, en una confesión silenciosa; cada sesión boudoir, en un ritual sagrado de empoderamiento femenino; cada paisaje, en una sinfonía que acaricia los sentidos. Desde mi santuario en Valle de Guadalupe, mi espírito nómada teje historias visuales destinadas a desafiar la eternidad.' : 'I\'m David Josué, a visual artist and photographer. I bring an artistic perspective to capture the true essence of your most important moments – destination weddings, intimate portraits, empowering boudoir, and evocative landscapes. Based in Valle de Guadalupe, serving the world.'}
-          </p>
-          <div className="flex flex-col sm:flex-row gap-5 justify-center mt-4">
-             {/* Refined luxury CTAs */}
-             <Link href={`/${lang}/portfolio`} className="inline-flex items-center justify-center text-sm uppercase tracking-widest font-light px-10 py-3 bg-white text-brand-text-primary hover:bg-white/90 transition-all duration-300"> 
-               {isSpanish ? 'Descubre Mi Universo Visual' : 'Explore My Work'}
-             </Link>
-             <Link href={`/${lang}/contact`} className="inline-flex items-center justify-center text-sm uppercase tracking-widest font-light px-10 py-3 border border-white text-white hover:bg-white/10 transition-all duration-300"> 
-               {isSpanish ? 'Iniciemos Una Conversación' : 'Inquire About Photography'}
-             </Link>
-          </div>
+      {/* Hero Section - Using PremiumHero for elegant KT Merry style */}
+      <PremiumHero
+        backgroundSrc="/images/david-josue-wedding-photography-hero-image.webp"
+        backgroundAlt="Stunning wedding photo backdrop"
+        heading={isSpanish ? 'Fotografía Que Susurra Al Alma. Instantes Que Desnudan Tu Verdad.' : 'Photography That Feels Like Art. Moments That Feel Like You.'}
+        subheading={isSpanish ? 'Creando arte visual con alma en Valle de Guadalupe y destinos exclusivos alrededor del mundo.' : 'Creating soulful visual art in Valle de Guadalupe and exclusive destinations around the world.'}
+        contentWidth="wide"
+      >
+        <div className="flex flex-col sm:flex-row gap-5 justify-center mt-4">
+          <PremiumButton 
+            href={`/${lang}/portfolio`} 
+            variant="primary"
+          >
+            {isSpanish ? 'Descubre Mi Universo Visual' : 'Explore My Work'}
+          </PremiumButton>
+          <PremiumButton 
+            href={`/${lang}/contact`} 
+            variant="secondary"
+          >
+            {isSpanish ? 'Iniciemos Una Conversación' : 'Inquire About Photography'}
+          </PremiumButton>
         </div>
-      </section>
+      </PremiumHero>
 
-      {/* Service Intro Section - Revised */}
-      <ScrollReveal>
-      <section className="py-16 md:py-24 bg-brand-background text-brand-text-primary"> {/* bg-white -> bg-brand-background, text-gray-800 -> text-brand-text-primary */}
-        <div className="container mx-auto max-w-screen-lg px-4 text-center">
-           <h2 className="text-3xl md:text-4xl text-serif font-light mb-12 tracking-wide">
-              {isSpanish ? '¿Qué Relato Íntimo Tejeremos Juntos?' : 'What Story Will We Tell Together?'}
-            </h2>
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Wedding Card - Refined */}
-              <Link href={`/${lang}/services/destination-weddings`} className="group block">
-                 <div className="aspect-square overflow-hidden bg-gray-100 mb-4">
-                     <Image src="/images/david-josue-destination-wedding-photography-service.jpg" alt="Wedding photo example" width={500} height={500} style={{ objectFit: 'cover' }} className="w-full h-full transition-transform duration-300 group-hover:scale-105"/>
-                 </div>
-                 <h3 className="text-xl text-serif font-semibold mb-1">{isSpanish ? 'Bodas de Destino: Poesía Visual' : 'Destination Weddings'}</h3>
-                 <p className="text-sm text-brand-text-secondary">{isSpanish ? 'Vuestra unión sagrada, inmortalizada con sensibilidad artística en escenarios que transforman vuestra narrativa en un poema visual eterno.' : 'Your love adventure, artfully captured.'}</p> {/* text-gray-500 -> text-brand-text-secondary */}
-              </Link>
-              {/* Boudoir Card - Refined */}
-               <Link href={`/${lang}/services/boudoir`} className="group block">
-                 <div className="aspect-square overflow-hidden bg-gray-100 mb-4">
-                     <Image src="/images/david-josue-boudoir-photography-service.jpg" alt="Boudoir photo example" width={500} height={500} style={{ objectFit: 'cover' }} className="w-full h-full transition-transform duration-300 group-hover:scale-105"/>
-                 </div>
-                 <h3 className="text-xl text-serif font-semibold mb-1">Boudoir</h3>
-                 <p className="text-sm text-brand-text-secondary">{isSpanish ? 'Un ritual de reconexión con tu esencia divina. Celebramos tu poder y belleza singular en un santuario de confianza y vulnerabilidad sagrada.' : 'Celebrate your unique power and beauty.'}</p> {/* text-gray-500 -> text-brand-text-secondary */}
-              </Link>
-              {/* Portraits Card - Refined */}
-               <Link href={`/${lang}/services/portraits`} className="group block">
-                 <div className="aspect-square overflow-hidden bg-gray-100 mb-4">
-                     <Image src="/images/david-josue-portrait-photography-service.jpg" alt="Portrait photo example" width={500} height={500} style={{ objectFit: 'cover' }} className="w-full h-full transition-transform duration-300 group-hover:scale-105"/>
-                 </div>
-                 <h3 className="text-xl text-serif font-semibold mb-1">{isSpanish ? 'Retratos del Alma' : 'Portraits'}</h3>
-                 <p className="text-sm text-brand-text-secondary">{isSpanish ? 'La verdad desnuda de tu ser, la profundidad insondable de tu espírito, revelada con delicadeza a través de mi mirada contemplativa.' : 'Your personal story, told visually.'}</p> {/* text-gray-500 -> text-brand-text-secondary */}
-              </Link>
-           </div>
-           {/* Fine Art Card - Refined */}
-           <div className="mt-12 text-center"> {/* Increased margin */}
-              <Link href={`/${lang}/fine-art`} className="group inline-block max-w-xs mx-auto"> {/* Use inline-block */}
-                 {/* Optional: Add placeholder image later */}
-                 <h3 className="text-xl text-serif font-semibold mb-1">{isSpanish ? 'Arte Contemplativo' : 'Fine Art'}</h3>
-                 <p className="text-sm text-brand-text-secondary">{isSpanish ? 'Paisajes que susurran secretos ancestrales y creaciones que infunden alma a tus espacios, despertando emociones olvidadas.' : 'Explore landscapes and artistic collections for your space.'}</p> {/* text-gray-500 -> text-brand-text-secondary */}
-              </Link>
-           </div>
-        </div>
-      </section>
-      </ScrollReveal>
-
-      {/* Artist Statement / Approach Section */}
-
-      {/* Artist Statement / Approach Section */}
-      <ScrollReveal delay={0.1}>
-      <section className="py-16 md:py-24 bg-brand-background-alt text-brand-text-primary"> {/* bg-light -> bg-brand-background-alt, implicitly text-brand-text-primary */}
-        <div className="container mx-auto max-w-screen-lg px-4 text-center">
-           <h2 className="text-3xl md:text-4xl text-serif font-light mb-6 tracking-wide">
-             {isSpanish ? 'La Mirada Contemplativa: El Alma Que Habita Cada Instante' : 'The Art of Seeing: Beyond Documentation'}
-            </h2>
-            <p className="text-lg max-w-3xl mx-auto leading-relaxed text-brand-text-secondary"> {/* Added text-brand-text-secondary for body */}
-              {isSpanish ? <>Mi formación en Artes Visuales es el cimiento, pero mi verdadera guía es la intuición. Mi lente no se limita a documentar; busca sentir la vibración emocional que subyace, la beleza efímera que se revela en un suspiro, la narrativa única que se teje en cada unión, cada mirada, cada horizonte. Mi obsesión sagrada es transmutar la <span className="italic text-brand-text-primary">sensación</span> de un instante —su esencia intangible— en un testimonio visual que perdure, desafiando al olvido. Es la alquimia de convertir lo efímero en eterno.</> : <>With a Master's in Visual Arts, I don't just take pictures – I create images that tell stories. I look for the emotion beneath the surface, the fleeting beauty, the unique narrative in every wedding, portrait, or landscape. It's about capturing how the moment <span className="italic text-brand-text-primary">felt</span>, not just how it looked.</>} {/* text-gray-800 -> text-brand-text-primary */}
-            </p>
-         </div>
-       </section>
-       </ScrollReveal>
-
-      {/* How it Works Section (Previously Destination Highlight) */}
-       <ScrollReveal delay={0.1}>
-       <section className="py-16 md:py-24 bg-brand-background-alt text-brand-text-primary"> {/* bg-medium -> bg-brand-background-alt */}
-         <div className="container mx-auto max-w-screen-xl px-4 text-center">
-            <h2 className="text-3xl md:text-4xl text-serif font-light mb-4 tracking-wide">
-              {isSpanish ? 'El Proceso: Tejiendo Vuestra Narrativa Visual' : 'The Process: Crafting Your Visual Story'} {/* Updated Heading */}
-            </h2>
-            <p className="text-lg text-brand-text-secondary max-w-2xl mx-auto mb-12"> {/* text-gray-600 -> text-brand-text-secondary */}
-               {isSpanish ? 'Desde nuestro primer encuentro hasta la entrega de vuestro legado visual, cada paso está diseñado con intención y cuidado, asegurando una experiencia tan memorable como las imágenes mismas.' : 'From our first chat to the final delivery, every step is designed with intention and care, ensuring an experience as memorable as the images.'} {/* Updated Paragraph */}
-            </p>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-left">
-            {/* Step 1 */}
-            <div className="flex flex-col items-center md:items-start text-center md:text-left">
-              <div className="bg-brand-text-primary text-brand-background rounded-full w-10 h-10 flex items-center justify-center text-lg font-semibold mb-4">1</div> {/* bg-dark -> bg-brand-text-primary, text-white -> text-brand-background */}
-              <h3 className="text-lg font-semibold mb-2">{isSpanish ? '1. El Encuentro Sagrado' : 'Schedule a Chat'}</h3>
-              <p className="text-sm text-brand-text-secondary">{isSpanish ? 'Iniciemos con una conversación íntima, un espacio sagrado donde tus sonhos e ideas puedan danzar libremente. Mi escucha será un acto de devoción, sumergiéndome en tu visión para co-crear desde la esencia. Un primer latido sin expectativas, solo la promesa de una colaboración nacida del alma.' : 'Let\'s connect via video call. Tell me your vision, ask questions, and see if we\'re the right fit. No pressure, just conversation.'}</p> {/* text-gray-600 -> text-brand-text-secondary */}
-            </div>
-            {/* Step 2 */}
-            <div className="flex flex-col items-center md:items-start text-center md:text-left">
-             <div className="bg-brand-text-primary text-brand-background rounded-full w-10 h-10 flex items-center justify-center text-lg font-semibold mb-4">2</div> {/* bg-dark -> bg-brand-text-primary, text-white -> text-brand-background */}
-             <h3 className="text-lg font-semibold mb-2">{isSpanish ? '2. Tejiendo La Visión' : 'Craft Your Vision'}</h3>
-             <p className="text-sm text-brand-text-secondary">{isSpanish ? <>Juntos, entrelazaremos hilos de inspiración para dar forma a un plan que honre la singularidad de tu alma. Cada instante sagrado, cada matiz emocional, será contemplado con reverencia, asegurando que la narrativa visual sea un reflejo fiel de <span className="italic text-brand-text-primary">tu</span> verdad más profunda e irrepetible.</> : <>We'll plan the timeline and key moments together, ensuring your photography reflects <span className="italic text-brand-text-primary">your</span> priorities.</>}</p> {/* text-gray-600 -> text-brand-text-secondary, italic text-gray-800 -> text-brand-text-primary */}
-           </div>
-           {/* Step 3 */}
-           <div className="flex flex-col items-center md:items-start text-center md:text-left">
-              <div className="bg-brand-text-primary text-brand-background rounded-full w-10 h-10 flex items-center justify-center text-lg font-semibold mb-4">3</div> {/* bg-dark -> bg-brand-text-primary, text-white -> text-brand-background */}
-              <h3 className="text-lg font-semibold mb-2">{isSpanish ? '3. La Danza Del Instante' : 'Live Your Day'}</h3>
-              <p className="text-sm text-brand-text-secondary">{isSpanish ? 'Abandónate al fluir sagrado del momento mientras mi mirada captura la magia invisible. Seré un testigo silencioso, moviéndome con la gracia de una sombra, inmortalizando la emoción desnuda y guiándote con susurros para crear retratos que detengan el tiempo y acaricien el alma.' : 'Relax and be present! I\'ll blend into the background, capturing the authentic moments and guiding you gently for stunning portraits.'}</p> {/* text-gray-600 -> text-brand-text-secondary */}
-            </div>
-            {/* Step 4 */}
-            <div className="flex flex-col items-center md:items-start text-center md:text-left">
-              <div className="bg-brand-text-primary text-brand-background rounded-full w-10 h-10 flex items-center justify-center text-lg font-semibold mb-4">4</div> {/* bg-dark -> bg-brand-text-primary, text-white -> text-brand-background */}
-              <h3 className="text-lg font-semibold mb-2">{isSpanish ? '4. El Legado Visual' : 'Relive Forever'}</h3>
-              <p className="text-sm text-brand-text-secondary">{isSpanish ? 'Recibirás un legado visual donde cada instante ha sido transmutado en arte. Imágenes editadas con reverencia artística, portales que te devolverán a la emoción pura una y otra vez. Álbumes e impresiones que son más que objetos: son reliquias destinadas a ser veneradas por las generaciones futuras.' : 'Receive your gallery of high-resolution, artfully edited images and discuss timeless, museum-quality albums or prints.'}</p> {/* text-gray-600 -> text-brand-text-secondary */}
-            </div>
-          </div>
-        </div>
-      </section>
-      </ScrollReveal>
-
-      {/* Success/Vision Section */}
-       <ScrollReveal delay={0.1}>
-       <section className="py-16 md:py-24 bg-brand-background text-brand-text-primary"> {/* bg-white -> bg-brand-background, text-gray-800 -> text-brand-text-primary */}
-         <div className="container mx-auto max-w-screen-lg px-4 text-center">
-           <h2 className="text-3xl md:text-4xl text-serif font-light mb-6 tracking-wide">
-             {isSpanish ? 'Imágenes Que Son Caricias Al Alma, Memorias Que Desafían Al Tiempo.' : <>Imagine Wedding Photos Filled with <span className="italic text-brand-text-primary">Real</span> Emotion and Timeless Beauty.</>} {/* italic text-gray-800 -> text-brand-text-primary */}
-           </h2>
-           <p className="text-lg max-w-3xl mx-auto leading-relaxed text-brand-text-secondary"> {/* Added text-brand-text-secondary for body */}
-             {isSpanish ? 'Cierra los ojos. Siente el peso sagrado del álbum entre tus manos años después. No son solo imágenes; son portales. Revives la electricidad previa al "sí, acepto", las lágrimas contenidas al susurrar votos eternos, la risa liberadora que inundó la pista, la quietud cómplice de una mirada robada al mundo. Cada emoción, capturada en su estado más puro, con una delicadeza que roza lo divino. El escenario elegido no es fondo, es personaje vivo en vuestra epopeya. Esto no es fotografía; es alquimia emocional, reliquias que respiran vuestra conexión más allá del tiempo. Es la diferencia entre documentar y narrar con el alma.' : <>Picture this: Years from now, you're looking through your wedding photos. You're not just seeing pictures; you're <span className="italic text-brand-text-primary">feeling</span> the day. The nervous excitement, the tearful vows, the uninhibited joy on the dance floor, the quiet glance between just the two of you – all captured authentically, beautifully. You see the stunning backdrop of your destination, woven into your story. These aren't just photos; they're heirlooms, a "magical time-machine" preserving the true essence of your love. That's the difference artful, story-driven photography makes.</>} {/* italic text-gray-800 -> text-brand-text-primary */}
-          </p>
-        </div>
-      </section>
-      </ScrollReveal>
-
-      {/* Destination Highlight Section */}
-       <ScrollReveal delay={0.1}>
-       <section className="py-16 md:py-24 bg-brand-background-alt text-brand-text-primary"> {/* bg-light -> bg-brand-background-alt */}
-         <div className="container mx-auto max-w-screen-xl px-4 text-center">
-            <h2 className="text-3xl md:text-4xl text-serif font-light mb-4 tracking-wide">
-              {isSpanish ? 'Peregrinaje Visual: Santuarios Del Amor Revelados' : 'From Valle de Guadalupe to the World'}
-            </h2>
-            <p className="text-lg text-brand-text-secondary max-w-2xl mx-auto mb-12"> {/* text-gray-600 -> text-brand-text-secondary */}
-               {isSpanish ? 'Mi lente ha sido testigo silente de historias sagradas florecendo en los rincones más encantados del mundo. Cada destino imprime su luz única, su atmósfera etérea, su esencia irrepetible en las composiciones que co-creamos, elevando cada imagen a una plegaria visual.' : 'Explore some of the beautiful locations where I\'ve had the pleasure to shoot.'}
-            </p>
-            {/* Placeholder for a gallery or map component */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {/* Image Placeholders */}
-                <div className="aspect-video bg-gray-200"><Image src="/images/david-josue-valle-de-guadalupe-wedding-destination.jpg" alt="Destination example 1" width={600} height={400} style={{ objectFit: 'cover' }} className="w-full h-full"/></div>
-                <div className="aspect-video bg-gray-200"><Image src="/images/david-josue-cabo-san-lucas-wedding-destination.jpg" alt="Destination example 2" width={600} height={400} style={{ objectFit: 'cover' }} className="w-full h-full"/></div>
-                <div className="aspect-video bg-gray-200"><Image src="/images/david-josue-san-miguel-de-allende-wedding-destination.jpg" alt="Destination example 3" width={600} height={400} style={{ objectFit: 'cover' }} className="w-full h-full"/></div>
-                 <div className="aspect-video bg-brand-muted"><Image src="/images/david-josue-tulum-wedding-destination.jpg" alt="Destination example 4" width={600} height={400} style={{ objectFit: 'cover' }} className="w-full h-full"/></div> {/* bg-gray-200 -> bg-brand-muted */}
-             </div>
-              <Link href={`/${lang}/destinations`} className="inline-block mt-8 text-sm font-medium text-brand-text-secondary hover:text-brand-text-primary"> {/* text-gray-700 -> text-brand-text-secondary, hover:text-gray-900 -> hover:text-brand-text-primary */}
-               {isSpanish ? 'Explora Todos Los Santuarios →' : 'See All Destinations →'}
-              </Link>
-         </div>
-       </section>
-       </ScrollReveal>
-
-       {/* Guide Download Section */}
-       <ScrollReveal delay={0.1}>
-       <section className="py-16 md:py-24 bg-brand-background text-brand-text-primary"> {/* bg-white -> bg-brand-background, text-gray-800 -> text-brand-text-primary */}
-         <div className="container mx-auto max-w-screen-md px-4 text-center">
-            <h2 className="text-3xl md:text-4xl text-serif font-light mb-4 tracking-wide">
-               {isSpanish ? 'Manifiesta La Boda Que Susurra Tu Alma' : 'Plan Your Perfect Destination Wedding'}
-             </h2>
-             <p className="text-lg text-brand-text-secondary mb-8"> {/* text-gray-600 -> text-brand-text-secondary */}
-               {isSpanish ? 'Descubre mi guía esencial, un compendio de sabiduría destilada y secretos locais para orquestar una celebración sublime en los escenarios más mágicos y conmovedores de México.' : 'Download my free guide with essential tips for planning your dream wedding in Mexico.'}
-             </p>
-             <div className="max-w-md mx-auto">
-                {/* Embed Flodesk Form */}
-                <FlodeskForm lang={lang} /> {/* Added component call with lang prop */}
-             </div>
-          </div>
-        </section>
-        </ScrollReveal>
-
-      {/* Final Call to Action Section */}
-      <ScrollReveal delay={0.2}>
-      <section className="py-16 md:py-24 bg-brand-text-primary text-brand-background"> {/* bg-dark -> bg-brand-text-primary, text-white -> text-brand-background */}
-        <div className="container mx-auto max-w-screen-md px-4 text-center">
-          <h2 className="text-3xl md:text-4xl text-serif font-light mb-6 tracking-wide">
-            {isSpanish ? '¿Lista Para Inmortalizar Vuestra Historia En Constelaciones Visuales?' : 'Ready for Wedding Photos You\'ll Treasure for a Lifetime?'}
+      {/* Service Intro Section - Using PremiumSection and ServiceGrid components */}
+      <PremiumSection bgColor="background">
+        <div className="text-center">
+          <h2 className="text-3xl md:text-4xl text-serif font-light mb-14 tracking-wide">
+            {isSpanish ? '¿Qué Relato Íntimo Tejeremos Juntos?' : 'What Story Will We Tell Together?'}
           </h2>
-          <p className="text-lg mb-8 text-brand-background/80"> {/* Added opacity to text for softer look */}
-            {isSpanish ? 'Mi compromiso es un pacto sagrado: dedicar mi atención plena y mi pasión artística a un número selecto de parejas cada año. Esta devoción me permite sumergirme en la profundidad de vuestra narrativa única. Descubramos juntos si nuestros caminos están destinados a cruzarse en vuestra fecha señalada.' : 'I only take a limited number of weddings each year to ensure every couple receives my full creative focus. Let\'s see if your date is available.'}
+          
+          <ServiceGrid columns={4}>
+            <ServiceCard
+              title={isSpanish ? 'Bodas de Destino: Poesía Visual' : 'Destination Weddings'}
+              description={isSpanish ? 'Vuestra unión sagrada, inmortalizada con sensibilidad artística.' : 'Your love adventure, artfully captured.'}
+              imageSrc="/images/david-josue-destination-wedding-photography-service.jpg"
+              imageAlt="Wedding photo example"
+              href={`/${lang}/services/destination-weddings`}
+              delay={0.5}
+            />
+            
+            <ServiceCard
+              title="Boudoir"
+              description={isSpanish ? 'Un ritual de reconexión con tu esencia divina.' : 'Celebrate your unique power and beauty.'}
+              imageSrc="/images/david-josue-boudoir-photography-service.jpg"
+              imageAlt="Boudoir photo example"
+              href={`/${lang}/services/boudoir`}
+              delay={0.7}
+            />
+            
+            <ServiceCard
+              title={isSpanish ? 'Retratos del Alma' : 'Portraits'}
+              description={isSpanish ? 'La verdad desnuda de tu ser, revelada con delicadeza.' : 'Your personal story, told visually.'}
+              imageSrc="/images/david-josue-portrait-photography-service.jpg"
+              imageAlt="Portrait photo example"
+              href={`/${lang}/services/portraits`}
+              delay={0.9}
+            />
+            
+            <ServiceCard
+              title={isSpanish ? 'Arte Contemplativo' : 'Fine Art'}
+              description={isSpanish ? 'Paisajes que susurran secretos ancestrales.' : 'Evocative landscapes for your space.'}
+              imageSrc="/images/barco-via-lactea-ensenada-web.jpg"
+              imageAlt="Fine Art night sky landscape"
+              href={`/${lang}/fine-art`}
+              delay={1.1}
+            />
+          </ServiceGrid>
+        </div>
+      </PremiumSection>
+
+      {/* Artist Statement / Approach Section - Using HeroImageWithText */}
+      <HeroImageWithText
+        imageSrc="/images/david-josue-wedding-photography-hero-image.webp"
+        imageAlt="Artistic wedding photography background"
+        title={isSpanish ? 'La Mirada Contemplativa: El Alma Que Habita Cada Instante' : 'The Art of Seeing: Beyond Documentation'}
+        subtitle={isSpanish 
+          ? 'Mi lente no se limita a documentar; busca capturar la sensación y la esencia intangible del momento, transmutando lo efímero en eterno.' 
+          : 'I don\'t just document. I create imagery that captures the feeling behind each fleeting moment and transforms it into something eternal.'}
+        overlayOpacity="dark"
+      />
+      
+      {/* Featured Showcase Image */}
+      <PremiumSection bgColor="background" className="pt-0">
+        <ScrollReveal delay={0.4}>
+          <div className="max-w-4xl mx-auto">
+            <Image
+              src="/images/david-josue-cabo-san-lucas-wedding-destination.jpg"
+              alt="Emotional wedding moment at Cabo San Lucas"
+              width={1200}
+              height={800}
+              quality={90}
+              className="w-full h-auto"
+            />
+          </div>
+        </ScrollReveal>
+      </PremiumSection>
+
+      {/* How it Works Section - Using PremiumSection and ProcessStep components */}
+      <PremiumSection bgColor="background-alt">
+        <div className="text-center">
+          <h2 className="text-3xl md:text-4xl text-serif font-light mb-4 tracking-wide">
+            {isSpanish ? 'El Proceso: Tejiendo Vuestra Narrativa Visual' : 'The Process: Crafting Your Visual Story'}
+          </h2>
+          <p className="text-lg text-brand-text-secondary max-w-2xl mx-auto mb-12">
+            {isSpanish 
+              ? 'Desde nuestro primer encuentro hasta la entrega de vuestro legado visual, cada paso está diseñado con intención y cuidado, asegurando una experiencia tan memorable como las imágenes mismas.' 
+              : 'From our first chat to the final delivery, every step is designed with intention and care, ensuring an experience as memorable as the images.'}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-             {/* Using accent color for primary CTA */}
-             <Link href="#" className="inline-flex items-center justify-center rounded-md text-sm font-medium h-11 px-8 py-2 bg-brand-accent text-white hover:bg-brand-accent-hover transition-colors">
-              {isSpanish ? 'Agenda Nuestra Conversación Sagrada' : 'Schedule Your Consultation'}
-             </Link>
-             {/* Keeping secondary CTA bordered */}
-             <Link href={`/${lang}/contact`} className="inline-flex items-center justify-center rounded-md text-sm font-medium h-11 px-8 py-2 border border-brand-background text-brand-background hover:bg-brand-background/10 transition-colors">
-               {isSpanish ? 'Consulta La Danza De Fechas' : 'Inquire About Your Date'}
-             </Link>
+          
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-left">
+            <ProcessStep
+              number="01"
+              title={isSpanish ? 'El Encuentro Sagrado' : 'Schedule a Chat'}
+              description={isSpanish 
+                ? 'Iniciemos con una conversación íntima, un espacio sagrado donde tus sueños e ideas puedan danzar libremente. Mi escucha será un acto de devoción, sumergiéndome en tu visión para co-crear desde la esencia.' 
+                : 'Let\'s connect via video call. Tell me your vision, ask questions, and see if we\'re the right fit. No pressure, just conversation.'}
+              delay={0.4}
+            />
+            
+            <ProcessStep
+              number="02"
+              title={isSpanish ? 'Tejiendo La Visión' : 'Craft Your Vision'}
+              description={isSpanish 
+                ? 'Juntos, entrelazaremos hilos de inspiración para dar forma a un plan que honre la singularidad de tu alma. Cada instante sagrado, cada matiz emocional, será contemplado con reverencia.' 
+                : 'We\'ll plan the timeline and key moments together, ensuring your photography reflects your priorities.'}
+              delay={0.6}
+            />
+            
+            <ProcessStep
+              number="03"
+              title={isSpanish ? 'La Danza Del Instante' : 'Live Your Day'}
+              description={isSpanish 
+                ? 'Abandónate al fluir sagrado del momento mientras mi mirada captura la magia invisible. Seré un testigo silencioso, moviéndome con la gracia de una sombra.' 
+                : 'Relax and be present! I\'ll blend into the background, capturing the authentic moments and guiding you gently for stunning portraits.'}
+              delay={0.8}
+            />
+            
+            <ProcessStep
+              number="04"
+              title={isSpanish ? 'El Legado Visual' : 'Relive Forever'}
+              description={isSpanish 
+                ? 'Recibirás un legado visual donde cada instante ha sido transmutado en arte. Imágenes editadas con reverencia artística, portales que te devolverán a la emoción pura.' 
+                : 'Receive your gallery of high-resolution, artfully edited images and discuss timeless, museum-quality albums or prints.'}
+              delay={1.0}
+            />
           </div>
         </div>
-      </section>
-      </ScrollReveal>
+      </PremiumSection>
+
+      {/* Success/Vision Section - Premium Design with Featured Image */}
+      <PremiumSection bgColor="background" className="py-28 md:py-40">
+        <div className="text-center">
+          <h2 className="text-3xl md:text-4xl text-serif font-light mb-8 tracking-wide">
+            {isSpanish 
+              ? 'Imágenes Que Son Caricias Al Alma, Memorias Que Desafían Al Tiempo.' 
+              : <>Imagine Wedding Photos Filled with <span className="italic">Real</span> Emotion and Timeless Beauty.</>}
+          </h2>
+          <p className="text-base md:text-lg max-w-xl mx-auto leading-relaxed tracking-wide text-brand-text-secondary mb-16">
+            {isSpanish 
+              ? 'Imágenes que te transportan. Cada emoción, cada mirada, cada instante efímero—preservados como reliquias que respiran tu historia más allá del tiempo.' 
+              : <>Not just images, but emotional heirlooms. A <span className="italic">magical time-machine</span> that preserves the true essence of your celebration long after the moment has passed.</>}
+          </p>
+          
+          <ScrollReveal delay={0.7}>
+            <div className="max-w-4xl mx-auto">
+              <Image
+                src="/images/david-josue-cabo-san-lucas-wedding-destination.jpg"
+                alt="Wedding couple emotional moment"
+                width={1200}
+                height={800}
+                quality={90}
+                className="w-full h-auto"
+              />
+            </div>
+          </ScrollReveal>
+        </div>
+      </PremiumSection>
+
+      {/* Destination Highlight Section - Using PremiumSection and ImageRow */}
+      <PremiumSection bgColor="background-alt">
+        <div className="text-center">
+          <h2 className="text-3xl md:text-4xl text-serif font-light mb-4 tracking-wide">
+            {isSpanish ? 'Peregrinaje Visual: Santuarios Del Amor Revelados' : 'From Valle de Guadalupe to the World'}
+          </h2>
+          <p className="text-lg text-brand-text-secondary max-w-2xl mx-auto mb-12">
+            {isSpanish 
+              ? 'Mi lente ha sido testigo silente de historias sagradas florecendo en los rincones más encantados del mundo. Cada destino imprime su luz única, su atmósfera etérea, su esencia irrepetible en las composiciones que co-creamos, elevando cada imagen a una plegaria visual.' 
+              : 'Explore some of the beautiful locations where I\'ve had the pleasure to shoot.'}
+          </p>
+          
+          <ImageRow
+            images={[
+              {
+                src: "/images/david-josue-valle-de-guadalupe-wedding-destination.jpg",
+                alt: "Valle de Guadalupe Wedding Destination",
+                width: 600,
+                height: 400
+              },
+              {
+                src: "/images/david-josue-cabo-san-lucas-wedding-destination.jpg",
+                alt: "Cabo San Lucas Wedding Destination",
+                width: 600,
+                height: 400
+              },
+              {
+                src: "/images/david-josue-san-miguel-de-allende-wedding-destination.jpg",
+                alt: "San Miguel de Allende Wedding Destination",
+                width: 600,
+                height: 400
+              },
+              {
+                src: "/images/david-josue-tulum-wedding-destination.jpg",
+                alt: "Tulum Wedding Destination",
+                width: 600,
+                height: 400
+              }
+            ]}
+            className="mb-8"
+            delay={0.4}
+          />
+          
+          <PremiumButton
+            href={`/${lang}/destinations`}
+            variant="text"
+          >
+            {isSpanish ? 'Explora Todos Los Santuarios →' : 'See All Destinations →'}
+          </PremiumButton>
+        </div>
+      </PremiumSection>
+
+      {/* Guide Download Section - Using PremiumSection */}
+      <PremiumSection bgColor="background">
+        <div className="text-center max-w-screen-md mx-auto">
+          <h2 className="text-3xl md:text-4xl text-serif font-light mb-4 tracking-wide">
+            {isSpanish ? 'Manifiesta La Boda Que Susurra Tu Alma' : 'Plan Your Perfect Destination Wedding'}
+          </h2>
+          <p className="text-lg text-brand-text-secondary mb-8">
+            {isSpanish 
+              ? 'Descubre mi guía esencial, un compendio de sabiduría destilada y secretos locales para orquestar una celebración sublime en los escenarios más mágicos y conmovedores de México.' 
+              : 'Download my free guide with essential tips for planning your dream wedding in Mexico.'}
+          </p>
+          <div className="max-w-md mx-auto">
+            <FlodeskForm lang={lang} />
+          </div>
+        </div>
+      </PremiumSection>
+
+      {/* Final Call to Action Section - Using PremiumSection */}
+      <PremiumSection bgColor="dark" className="text-white">
+        <div className="text-center max-w-screen-md mx-auto">
+          <h2 className="text-3xl md:text-4xl text-serif font-light mb-6 tracking-wide">
+            {isSpanish 
+              ? '¿Lista Para Inmortalizar Vuestra Historia En Constelaciones Visuales?' 
+              : 'Ready for Wedding Photos You\'ll Treasure for a Lifetime?'}
+          </h2>
+          <p className="text-lg mb-8 text-white/80">
+            {isSpanish 
+              ? 'Mi compromiso es un pacto sagrado: dedicar mi atención plena y mi pasión artística a un número selecto de parejas cada año. Esta devoción me permite sumergirme en la profundidad de vuestra narrativa única.' 
+              : 'I only take a limited number of weddings each year to ensure every couple receives my full creative focus. Let\'s see if your date is available.'}
+          </p>
+          <div className="flex flex-col sm:flex-row gap-5 justify-center">
+            <PremiumButton 
+              href={`/${lang}/contact`} 
+              variant="primary"
+              className="bg-brand-accent text-white hover:bg-brand-accent-hover border-0"
+            >
+              {isSpanish ? 'Agenda Nuestra Conversación Sagrada' : 'Schedule Your Consultation'}
+            </PremiumButton>
+            <PremiumButton 
+              href={`/${lang}/contact`} 
+              variant="secondary"
+            >
+              {isSpanish ? 'Consulta La Danza De Fechas' : 'Inquire About Your Date'}
+            </PremiumButton>
+          </div>
+        </div>
+      </PremiumSection>
 
       {/* Removed Duplicate Guide Download Section */}
 

@@ -15,6 +15,7 @@ export function ShootqForm({ src = DEFAULT_SHOOTQ_SRC, minHeight = '600px' }: Sh
    seamless={true} // Note: seamless attribute is deprecated in HTML5
    frameBorder="0"
    scrolling="no" // Attempt to disable iframe scrolling
+   loading="lazy" // Add lazy loading attribute
     style={{
       width: '100%',
       border: 'none',

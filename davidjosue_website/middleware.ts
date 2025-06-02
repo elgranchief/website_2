@@ -5,8 +5,21 @@ const locales = ['en-US', 'es-MX'];
 const defaultLocale = 'en-US';
 
 export function middleware(request: NextRequest) {
-  // Check if there is any supported locale in the pathname
   const pathname = request.nextUrl.pathname;
+
+  // Redirect root path based on Accept-Language header
+  if (pathname === '/') {
+    const acceptLanguageHeader = request.headers.get('Accept-Language');
+    const preferredLanguage = acceptLanguageHeader?.split(',')[0].split('-')[0].toLowerCase();
+
+    if (preferredLanguage === 'es') {
+      return NextResponse.redirect(new URL('/es-MX', request.url));
+    } else {
+      return NextResponse.redirect(new URL('/en-US', request.url));
+    }
+  }
+
+  // Existing logic: Check if there is any supported locale in the pathname
   const pathnameIsMissingLocale = locales.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
   );
